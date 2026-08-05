@@ -7,7 +7,13 @@ packages=(
   zlib
   xz
   zstd
+  bzip2
+  ncurses
+  readline
   bash
+  m4
+  file
+  diffutils
   coreutils
 )
 
@@ -23,10 +29,19 @@ chmod 440 /etc/sudoers.d/builder
 
 for package_name in "${packages[@]}"; do
   package_dir="/workspace/packages/core/${package_name}"
-
-  echo "Building ${package_name}"
   chown -R builder:builder "${package_dir}"
 
+  echo "Verifying sources for ${package_name}"
+  sudo -u builder bash -euxo pipefail -c "
+    cd '${package_dir}'
+    makepkg --verifysource --noconfirm
+  "
+done
+
+for package_name in "${packages[@]}"; do
+  package_dir="/workspace/packages/core/${package_name}"
+
+  echo "Building ${package_name}"
   sudo -u builder bash -euxo pipefail -c "
     cd '${package_dir}'
     makepkg --syncdeps --cleanbuild --noconfirm --needed
