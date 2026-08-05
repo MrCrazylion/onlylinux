@@ -1,0 +1,29 @@
+# Maintainer: Only Linux Project
+
+pkgname=patch
+pkgver=2.8
+pkgrel=1
+pkgdesc="GNU utility to apply patch files"
+arch=('x86_64')
+url="https://www.gnu.org/software/patch/"
+license=('GPL-3.0-or-later')
+depends=('glibc' 'attr')
+options=('!debug')
+source=("https://ftp.gnu.org/gnu/patch/patch-${pkgver}.tar.xz")
+md5sums=('149327a021d41c8f88d034eab41c039f')
+
+build() {
+  cd "${srcdir}/patch-${pkgver}"
+  ./configure --prefix=/usr
+  make
+}
+
+check() {
+  cd "${srcdir}/patch-${pkgver}"
+  make check
+}
+
+package() {
+  cd "${srcdir}/patch-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+}
