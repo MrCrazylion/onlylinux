@@ -1,0 +1,40 @@
+# Maintainer: Only Linux Project
+
+pkgname=bzip2
+pkgver=1.0.8
+pkgrel=1
+pkgdesc="High-quality block-sorting compression library and tools"
+arch=('x86_64')
+url="https://sourceware.org/bzip2/"
+license=('BSD-3-Clause')
+depends=('glibc' 'sh')
+provides=('libbz2.so')
+options=('!debug')
+source=("https://sourceware.org/pub/bzip2/bzip2-${pkgver}.tar.gz")
+md5sums=('67e051268d0c475ea773822f7500d0e5')
+
+build() {
+  cd "${srcdir}/bzip2-${pkgver}"
+  make -f Makefile-libbz2_so CC="gcc ${CFLAGS} ${CPPFLAGS} ${LDFLAGS}"
+  make bzip2 bzip2recover CC="gcc ${CFLAGS} ${CPPFLAGS} ${LDFLAGS}"
+}
+
+check() {
+  cd "${srcdir}/bzip2-${pkgver}"
+  make test
+}
+
+package() {
+  cd "${srcdir}/bzip2-${pkgver}"
+  install -d "${pkgdir}"/usr/{bin,include,lib,share/man/man1}
+  install -m755 bzip2-shared "${pkgdir}/usr/bin/bzip2"
+  install -m755 bzip2recover bzdiff bzgrep bzmore "${pkgdir}/usr/bin"
+  ln -s bzip2 "${pkgdir}/usr/bin/bunzip2"
+  ln -s bzip2 "${pkgdir}/usr/bin/bzcat"
+  cp -a libbz2.so* "${pkgdir}/usr/lib/"
+  ln -s "libbz2.so.${pkgver}" "${pkgdir}/usr/lib/libbz2.so"
+  ln -s "libbz2.so.${pkgver}" "${pkgdir}/usr/lib/libbz2.so.1"
+  install -m644 bzlib.h "${pkgdir}/usr/include/"
+  install -m644 bzip2.1 "${pkgdir}/usr/share/man/man1/"
+  install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
