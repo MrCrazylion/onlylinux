@@ -49,7 +49,9 @@ Only Linux uses a layered package model.
 
 ### Core
 
-Core package versions are selected using the stable Linux From Scratch release as a reference.
+Core package versions are selected using the stable Linux From Scratch release as the version authority. Arch Linux packaging is used as the preferred engineering reference for recipes, while official upstream locations are preferred for source downloads.
+
+See [the packaging policy](docs/PACKAGING_POLICY.md) for the source fallback and integrity rules.
 
 ### System and desktop
 
@@ -74,6 +76,8 @@ onlylinux/
 ├── config/
 │   ├── release.yaml
 │   └── core-packages.yaml
+├── docs/
+│   └── PACKAGING_POLICY.md
 ├── manifests/
 │   └── README.md
 ├── packages/
@@ -82,7 +86,13 @@ onlylinux/
 │       ├── zlib/PKGBUILD
 │       ├── xz/PKGBUILD
 │       ├── zstd/PKGBUILD
+│       ├── bzip2/PKGBUILD
+│       ├── ncurses/PKGBUILD
+│       ├── readline/PKGBUILD
 │       ├── bash/PKGBUILD
+│       ├── m4/PKGBUILD
+│       ├── file/PKGBUILD
+│       ├── diffutils/PKGBUILD
 │       └── coreutils/PKGBUILD
 ├── scripts/
 │   ├── import_lfs.py
@@ -96,7 +106,22 @@ Generated build products are written under `output/` on GitHub-hosted runners an
 
 ## Bootstrap pipeline
 
-The bootstrap pipeline imports stable Linux From Scratch metadata, verifies package versions, and builds `filesystem`, `zlib`, `xz`, `zstd`, `bash`, and `coreutils` inside an Arch Linux container. It then creates an `only-core` ALPM repository database and uploads the complete repository as a GitHub Actions artifact.
+The bootstrap pipeline imports stable Linux From Scratch metadata, verifies package versions, and performs a source-integrity preflight before compiling anything. It builds twelve packages inside an Arch Linux container:
+
+- `filesystem`
+- `zlib`
+- `xz`
+- `zstd`
+- `bzip2`
+- `ncurses`
+- `readline`
+- `bash`
+- `m4`
+- `file`
+- `diffutils`
+- `coreutils`
+
+The workflow then creates an `only-core` ALPM repository database and uploads the complete repository as a GitHub Actions artifact.
 
 ## Current scope
 
