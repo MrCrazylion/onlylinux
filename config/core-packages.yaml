@@ -92,3 +92,67 @@ packages:
     repository: "only-core"
     build_order: 12
     enabled: true
+
+  sed:
+    version_source: "lfs"
+    lfs_source_name: "sed"
+    arch_pkgbase: "sed"
+    repository: "only-core"
+    build_order: 13
+    enabled: true
+
+  grep:
+    version_source: "lfs"
+    lfs_source_name: "grep"
+    arch_pkgbase: "grep"
+    repository: "only-core"
+    build_order: 14
+    enabled: true
+
+  gawk:
+    version_source: "lfs"
+    lfs_source_name: "gawk"
+    arch_pkgbase: "gawk"
+    repository: "only-core"
+    build_order: 15
+    enabled: true
+
+  findutils:
+    version_source: "lfs"
+    lfs_source_name: "findutils"
+    arch_pkgbase: "findutils"
+    repository: "only-core"
+    build_order: 16
+    enabled: true
+
+  gzip:
+    version_source: "lfs"
+    lfs_source_name: "gzip"
+    arch_pkgbase: "gzip"
+    repository: "only-core"
+    build_order: 17
+    enabled: true
+
+  make:
+    version_source: "lfs"
+    lfs_source_name: "make"
+    arch_pkgbase: "make"
+    repository: "only-core"
+    build_order: 18
+    enabled: true
+
+  patch:
+    version_source: "lfs"
+    lfs_source_name: "patch"
+    arch_pkgbase: "patch"
+    repository: "only-core"
+    build_order: 19
+    enabled: true
+
+  tar:
+    version_source: "lfs"
+    lfs_source_name: "tar"
+    arch_pkgbase: "tar"
+    repository: "only-core"
+    build_order: 20
+    enabled: true
