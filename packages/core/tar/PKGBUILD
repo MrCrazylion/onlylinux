@@ -12,34 +12,17 @@ options=('!debug')
 source=("https://mirrors.kernel.org/gnu/tar/tar-${pkgver}.tar.xz")
 md5sums=('a2d8042658cfd8ea939e6d911eaf4152')
 
-build() {
+prepare() {
   cd "${srcdir}/tar-${pkgver}"
-  ./configure --prefix=/usr
-  make
-}
 
-check() {
-  cd "${srcdir}/tar-${pkgver}"
-  make check
+  # Upstream compatibility fix for libacl versions that export the same
+  # acl-at wrapper names used internally by Tar 1.35.
+  sed -i \
+    -e 's/acl_get_file_at/tar_acl_get_file_at/g' \
+    -e 's/acl_set_file_at/tar_acl_set_file_at/g' \
+    -e 's/acl_delete_def_file_at/tar_acl_delete_def_file_at/g' \
+    src/xattrs.c
 }
-
-package() {
-  cd "${srcdir}/tar-${pkgver}"
-  make DESTDIR="${pkgdir}" install
-}
-# Maintainer: Only Linux Project
-
-pkgname=tar
-pkgver=1.35
-pkgrel=1
-pkgdesc="GNU utility for archiving files"
-arch=('x86_64')
-url="https://www.gnu.org/software/tar/"
-license=('GPL-3.0-or-later')
-depends=('glibc' 'acl' 'attr')
-options=('!debug')
-source=("https://ftp.gnu.org/gnu/tar/tar-${pkgver}.tar.xz")
-md5sums=('a2d8042658cfd8ea939e6d911eaf4152')
 
 build() {
   cd "${srcdir}/tar-${pkgver}"
