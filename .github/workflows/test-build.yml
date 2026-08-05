@@ -1,0 +1,30 @@
+name: Only Linux Build Test
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  arch-build-environment-smoke-test:
+    name: Arch Linux build environment smoke test
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+
+    steps:
+      - name: Show GitHub-hosted runner information
+        run: |
+          uname -a
+          df -h
+          free -h
+
+      - name: Verify Arch Linux build environment
+        run: |
+          docker run --rm archlinux:base-devel bash -euxo pipefail -c '
+            pacman -Syu --noconfirm
+            echo "Arch Linux build environment is working"
+            gcc --version
+            make --version
+            pacman --version
+          '
