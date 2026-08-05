@@ -9,7 +9,7 @@ url="https://www.gnu.org/software/gzip/"
 license=('GPL-3.0-or-later')
 depends=('glibc')
 options=('!debug')
-source=("https://ftp.gnu.org/gnu/gzip/gzip-${pkgver}.tar.xz")
+source=("https://mirrors.kernel.org/gnu/gzip/gzip-${pkgver}.tar.xz")
 md5sums=('4bf5a10f287501ee8e8ebe00ef62b2c2')
 
 build() {
