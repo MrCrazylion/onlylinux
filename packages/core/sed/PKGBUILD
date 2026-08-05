@@ -9,7 +9,7 @@ url="https://www.gnu.org/software/sed/"
 license=('GPL-3.0-or-later')
 depends=('glibc' 'acl')
 options=('!debug')
-source=("https://ftp.gnu.org/gnu/sed/sed-${pkgver}.tar.xz")
+source=("https://mirrors.kernel.org/gnu/sed/sed-${pkgver}.tar.xz")
 md5sums=('6aac9b2dbafcd5b7a67a8a9bcb8036c3')
 
 build() {
