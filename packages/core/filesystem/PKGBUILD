@@ -1,0 +1,46 @@
+# Maintainer: Only Linux Project
+
+pkgname=filesystem
+pkgver=0.1
+pkgrel=1
+pkgdesc="Base filesystem layout and release identity for Only Linux"
+arch=('any')
+url="https://github.com/MrCrazylion/onlylinux"
+license=('MIT')
+options=('!strip' '!debug')
+
+package() {
+  install -d \
+    "${pkgdir}/etc" \
+    "${pkgdir}/home" \
+    "${pkgdir}/mnt" \
+    "${pkgdir}/opt" \
+    "${pkgdir}/root" \
+    "${pkgdir}/srv" \
+    "${pkgdir}/usr/bin" \
+    "${pkgdir}/usr/include" \
+    "${pkgdir}/usr/lib" \
+    "${pkgdir}/usr/local" \
+    "${pkgdir}/usr/share" \
+    "${pkgdir}/var/cache" \
+    "${pkgdir}/var/lib" \
+    "${pkgdir}/var/log" \
+    "${pkgdir}/var/tmp"
+
+  chmod 0750 "${pkgdir}/root"
+  chmod 1777 "${pkgdir}/var/tmp"
+
+  ln -s usr/bin "${pkgdir}/bin"
+  ln -s usr/bin "${pkgdir}/sbin"
+  ln -s usr/lib "${pkgdir}/lib"
+  ln -s usr/lib "${pkgdir}/lib64"
+
+  cat > "${pkgdir}/etc/os-release" <<'EOF'
+NAME="Only Linux"
+ID=onlylinux
+PRETTY_NAME="Only Linux 0.1-dev"
+VERSION="0.1-dev"
+VERSION_ID="0.1-dev"
+HOME_URL="https://github.com/MrCrazylion/onlylinux"
+EOF
+}
