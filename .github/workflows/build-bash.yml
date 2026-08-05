@@ -1,4 +1,4 @@
-name: Build Bash Package
+name: Build Core Bootstrap
 
 on:
   workflow_dispatch:
@@ -7,19 +7,19 @@ permissions:
   contents: read
 
 jobs:
-  build-bash:
-    name: Build Bash and create only-core repository
+  build-core-bootstrap:
+    name: Build only-core bootstrap repository
     runs-on: ubuntu-24.04
-    timeout-minutes: 45
+    timeout-minutes: 90
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Import stable LFS package metadata
         run: python3 scripts/import_lfs.py
 
-      - name: Validate Bash version against LFS
+      - name: Validate package versions against LFS
         run: |
           python3 - <<'PY'
           import json
@@ -27,76 +27,66 @@ jobs:
           from pathlib import Path
 
           manifest = json.loads(Path("manifests/lfs-packages.json").read_text())
-          bash = next(
-              package
+          lfs_versions = {
+              package["source_name"]: package["version"]
               for package in manifest["packages"]
-              if package["source_name"] == "bash"
-          )
+          }
 
-          pkgbuild = Path("packages/core/bash/PKGBUILD").read_text()
-          match = re.search(r"^pkgver=(.+)$", pkgbuild, re.MULTILINE)
-          if match is None:
-              raise SystemExit("PKGBUILD does not define pkgver")
+          packages = {
+              "zlib": "zlib",
+              "xz": "xz",
+              "zstd": "zstd",
+              "bash": "bash",
+              "coreutils": "coreutils",
+          }
 
-          recipe_version = match.group(1).strip()
-          if recipe_version != bash["version"]:
-              raise SystemExit(
-                  f"Bash version mismatch: PKGBUILD={recipe_version}, "
-                  f"LFS={bash['version']}"
+          for package_name, lfs_name in packages.items():
+              pkgbuild = Path(
+                  f"packages/core/{package_name}/PKGBUILD"
+              ).read_text()
+              match = re.search(
+                  r"^pkgver=(.+)$",
+                  pkgbuild,
+                  re.MULTILINE,
               )
+              if match is None:
+                  raise SystemExit(
+                      f"{package_name}: PKGBUILD does not define pkgver"
+                  )
 
-          print(f"LFS Bash version: {bash['version']}")
-          print(f"LFS Bash source:  {bash['url']}")
+              recipe_version = match.group(1).strip()
+              lfs_version = lfs_versions.get(lfs_name)
+              if recipe_version != lfs_version:
+                  raise SystemExit(
+                      f"{package_name}: version mismatch: "
+                      f"PKGBUILD={recipe_version}, LFS={lfs_version}"
+                  )
+
+              print(f"{package_name}: {recipe_version} (matches LFS)")
           PY
 
-      - name: Build Bash in an Arch Linux container
+      - name: Build bootstrap packages in Arch Linux
         run: |
           docker run --rm \
             --volume "$GITHUB_WORKSPACE:/workspace" \
             --workdir /workspace \
             archlinux:base-devel \
-            bash -euxo pipefail -c '
-              pacman -Syu --noconfirm
-              pacman -S --needed --noconfirm git sudo namcap
+            bash /workspace/scripts/build_bootstrap.sh
 
-              useradd --create-home builder
-              printf "%s\n" "builder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/builder
-              chmod 440 /etc/sudoers.d/builder
-              chown -R builder:builder /workspace/packages/core/bash
-
-              sudo -u builder bash -c "
-                cd /workspace/packages/core/bash
-                makepkg --syncdeps --cleanbuild --noconfirm --needed
-              "
-            '
-
-      - name: Inspect recipe and package
-        run: |
-          docker run --rm \
-            --volume "$GITHUB_WORKSPACE:/workspace" \
-            --workdir /workspace/packages/core/bash \
-            archlinux:base-devel \
-            bash -euxo pipefail -c '
-              pacman -Syu --noconfirm
-              pacman -S --needed --noconfirm namcap
-
-              namcap PKGBUILD || true
-              for package in ./*.pkg.tar.zst; do
-                namcap "$package" || true
-              done
-            '
-
-      - name: Collect Bash package
+      - name: Collect bootstrap packages
         run: |
           mkdir -p output/packages
 
-          find packages/core/bash \
-            -maxdepth 1 \
+          find packages/core \
+            -mindepth 2 \
+            -maxdepth 2 \
             -type f \
             -name "*.pkg.tar.zst" \
             -exec cp -v {} output/packages/ \;
 
-          test -n "$(find output/packages -type f -name '*.pkg.tar.zst' -print -quit)"
+          package_count="$(find output/packages -type f -name '*.pkg.tar.zst' | wc -l)"
+          test "$package_count" -eq 6
+          echo "Collected $package_count bootstrap packages"
 
       - name: Create only-core repository database
         run: |
@@ -109,9 +99,9 @@ jobs:
             '
 
       - name: Upload Only Linux bootstrap repository
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
-          name: only-core-bash-bootstrap
+          name: only-core-bootstrap
           path: |
             output/packages/*.pkg.tar.zst
             output/packages/only-core.db*
