@@ -1,0 +1,29 @@
+# Maintainer: Only Linux Project
+
+pkgname=findutils
+pkgver=4.10.0
+pkgrel=1
+pkgdesc="GNU utilities to locate files"
+arch=('x86_64')
+url="https://www.gnu.org/software/findutils/"
+license=('GPL-3.0-or-later')
+depends=('glibc')
+options=('!debug')
+source=("https://ftp.gnu.org/gnu/findutils/findutils-${pkgver}.tar.xz")
+md5sums=('870cfd71c07d37ebe56f9f4aaf4ad872')
+
+build() {
+  cd "${srcdir}/findutils-${pkgver}"
+  ./configure --prefix=/usr --localstatedir=/var/lib/locate
+  make
+}
+
+check() {
+  cd "${srcdir}/findutils-${pkgver}"
+  make check
+}
+
+package() {
+  cd "${srcdir}/findutils-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+}
