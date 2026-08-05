@@ -63,6 +63,36 @@ Additional packages are maintained independently and built for Only Linux reposi
 
 Package builds are intended to run automatically in clean, reproducible environments on hosted infrastructure. Developers should not need to build the distribution directly on their personal computers.
 
+## Repository layout
+
+```text
+onlylinux/
+├── .github/
+│   └── workflows/
+│       ├── test-build.yml
+│       └── build-bash.yml
+├── config/
+│   ├── release.yaml
+│   └── core-packages.yaml
+├── manifests/
+│   └── README.md
+├── packages/
+│   └── core/
+│       └── bash/
+│           └── PKGBUILD
+├── scripts/
+│   └── import_lfs.py
+├── .gitignore
+├── LICENSE
+└── README.md
+```
+
+Generated build products are written under `output/` on GitHub-hosted runners and are not committed to the repository. The generated `manifests/lfs-packages.json` file is included in workflow artifacts.
+
+## Bootstrap pipeline
+
+The initial pipeline imports stable Linux From Scratch metadata, verifies the selected Bash version, builds the package inside an Arch Linux container, creates an `only-core` ALPM repository database, and uploads the result as a GitHub Actions artifact.
+
 ## Current scope
 
 This repository contains the initial project definition and bootstrap automation. It does not yet provide an installable operating system.
