@@ -1,0 +1,22 @@
+distribution:
+  name: "Only Linux"
+  id: "onlylinux"
+  release: "0.1-dev"
+  architecture: "x86_64"
+
+desktop:
+  official: "GNOME"
+
+package_manager:
+  name: "Tatami"
+  backend: "libalpm"
+
+version_sources:
+  core: "LFS stable-systemd"
+  desktop: "upstream stable"
+  applications: "upstream stable"
+
+repositories:
+  - only-core
+  - only-desktop
+  - only-apps
