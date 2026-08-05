@@ -1,0 +1,29 @@
+# Maintainer: Only Linux Project
+
+pkgname=make
+pkgver=4.4.1
+pkgrel=1
+pkgdesc="GNU build automation tool"
+arch=('x86_64')
+url="https://www.gnu.org/software/make/"
+license=('GPL-3.0-or-later')
+depends=('glibc')
+options=('!debug')
+source=("https://ftp.gnu.org/gnu/make/make-${pkgver}.tar.gz")
+md5sums=('8051eef7239b2f187791f2ab0034d6b7')
+
+build() {
+  cd "${srcdir}/make-${pkgver}"
+  ./configure --prefix=/usr --without-guile
+  make
+}
+
+check() {
+  cd "${srcdir}/make-${pkgver}"
+  make check
+}
+
+package() {
+  cd "${srcdir}/make-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+}
