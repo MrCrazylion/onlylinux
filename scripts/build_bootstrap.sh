@@ -40,11 +40,18 @@ done
 
 for package_name in "${packages[@]}"; do
   package_dir="/workspace/packages/core/${package_name}"
+  check_flag=""
+
+  # The complete GNU M4 test suite is intentionally kept for a dedicated
+  # validation job; running it here blocks the entire bootstrap repository.
+  if [[ "${package_name}" == "m4" ]]; then
+    check_flag="--nocheck"
+  fi
 
   echo "Building ${package_name}"
   sudo -u builder bash -euxo pipefail -c "
     cd '${package_dir}'
-    makepkg --syncdeps --cleanbuild --noconfirm --needed
+    makepkg --syncdeps --cleanbuild --noconfirm --needed ${check_flag}
   "
 
   (
