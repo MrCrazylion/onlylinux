@@ -1,0 +1,29 @@
+# Maintainer: Only Linux Project
+
+pkgname=sed
+pkgver=4.9
+pkgrel=1
+pkgdesc="GNU stream editor"
+arch=('x86_64')
+url="https://www.gnu.org/software/sed/"
+license=('GPL-3.0-or-later')
+depends=('glibc' 'acl')
+options=('!debug')
+source=("https://ftp.gnu.org/gnu/sed/sed-${pkgver}.tar.xz")
+md5sums=('6e65b88d2466b35e86e5187b99502b1c')
+
+build() {
+  cd "${srcdir}/sed-${pkgver}"
+  ./configure --prefix=/usr
+  make
+}
+
+check() {
+  cd "${srcdir}/sed-${pkgver}"
+  make check
+}
+
+package() {
+  cd "${srcdir}/sed-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+}
