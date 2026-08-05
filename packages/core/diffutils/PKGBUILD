@@ -1,0 +1,29 @@
+# Maintainer: Only Linux Project
+
+pkgname=diffutils
+pkgver=3.12
+pkgrel=1
+pkgdesc="GNU tools for comparing files"
+arch=('x86_64')
+url="https://www.gnu.org/software/diffutils/"
+license=('GPL-3.0-or-later')
+depends=('glibc' 'bash')
+options=('!debug')
+source=("https://ftpmirror.gnu.org/diffutils/diffutils-${pkgver}.tar.xz")
+md5sums=('d1b18b20868fb561f77861cd90b05de4')
+
+build() {
+  cd "${srcdir}/diffutils-${pkgver}"
+  ./configure --prefix=/usr
+  make
+}
+
+check() {
+  cd "${srcdir}/diffutils-${pkgver}"
+  make check
+}
+
+package() {
+  cd "${srcdir}/diffutils-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+}
