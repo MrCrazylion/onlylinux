@@ -2,14 +2,15 @@
 
 pkgname=bash
 pkgver=5.3
-pkgrel=1
+pkgrel=2
 pkgdesc="The GNU Bourne Again shell, packaged for Only Linux"
 arch=('x86_64')
 url="https://www.gnu.org/software/bash/"
 license=('GPL-3.0-or-later')
-depends=('glibc' 'readline' 'ncurses')
+depends=('glibc' 'readline')
 makedepends=('texinfo')
 provides=('sh')
+options=('!debug')
 source=("https://ftpmirror.gnu.org/bash/bash-${pkgver}.tar.gz")
 md5sums=('977c8c0c5ae6309191e7768e28ebc951')
 
@@ -34,4 +35,7 @@ package() {
   install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 
   ln -s bash "${pkgdir}/usr/bin/sh"
+
+  rm -rf "${pkgdir}/usr/lib/bash"
+  rm -f "${pkgdir}/usr/bin/bashbug"
 }
