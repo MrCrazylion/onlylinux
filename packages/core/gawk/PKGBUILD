@@ -9,7 +9,7 @@ url="https://www.gnu.org/software/gawk/"
 license=('GPL-3.0-or-later')
 depends=('glibc' 'gmp' 'mpfr')
 options=('!debug')
-source=("https://ftp.gnu.org/gnu/gawk/gawk-${pkgver}.tar.xz")
+source=("https://mirrors.kernel.org/gnu/gawk/gawk-${pkgver}.tar.xz")
 md5sums=('b7014650c5f45e5d4837c31209dc0037')
 
 build() {
