@@ -36,7 +36,13 @@ jobs:
               "zlib": "zlib",
               "xz": "xz",
               "zstd": "zstd",
+              "bzip2": "bzip2",
+              "ncurses": "ncurses",
+              "readline": "readline",
               "bash": "bash",
+              "m4": "m4",
+              "file": "file",
+              "diffutils": "diffutils",
               "coreutils": "coreutils",
           }
 
@@ -65,7 +71,7 @@ jobs:
               print(f"{package_name}: {recipe_version} (matches LFS)")
           PY
 
-      - name: Build bootstrap packages in Arch Linux
+      - name: Verify sources and build packages in Arch Linux
         run: |
           docker run --rm \
             --volume "$GITHUB_WORKSPACE:/workspace" \
@@ -85,7 +91,7 @@ jobs:
             -exec cp -v {} output/packages/ \;
 
           package_count="$(find output/packages -type f -name '*.pkg.tar.zst' | wc -l)"
-          test "$package_count" -eq 6
+          test "$package_count" -eq 12
           echo "Collected $package_count bootstrap packages"
 
       - name: Create only-core repository database
@@ -109,5 +115,6 @@ jobs:
             manifests/lfs-packages.json
             config/release.yaml
             config/core-packages.yaml
+            docs/PACKAGING_POLICY.md
           retention-days: 7
           if-no-files-found: error
