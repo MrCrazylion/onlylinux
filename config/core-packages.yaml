@@ -29,12 +29,60 @@ packages:
     build_order: 4
     enabled: true
 
+  bzip2:
+    version_source: "lfs"
+    lfs_source_name: "bzip2"
+    arch_pkgbase: "bzip2"
+    repository: "only-core"
+    build_order: 5
+    enabled: true
+
+  ncurses:
+    version_source: "lfs"
+    lfs_source_name: "ncurses"
+    arch_pkgbase: "ncurses"
+    repository: "only-core"
+    build_order: 6
+    enabled: true
+
+  readline:
+    version_source: "lfs"
+    lfs_source_name: "readline"
+    arch_pkgbase: "readline"
+    repository: "only-core"
+    build_order: 7
+    enabled: true
+
   bash:
     version_source: "lfs"
     lfs_source_name: "bash"
     arch_pkgbase: "bash"
     repository: "only-core"
-    build_order: 5
+    build_order: 8
+    enabled: true
+
+  m4:
+    version_source: "lfs"
+    lfs_source_name: "m4"
+    arch_pkgbase: "m4"
+    repository: "only-core"
+    build_order: 9
+    enabled: true
+
+  file:
+    version_source: "lfs"
+    lfs_source_name: "file"
+    arch_pkgbase: "file"
+    repository: "only-core"
+    build_order: 10
+    enabled: true
+
+  diffutils:
+    version_source: "lfs"
+    lfs_source_name: "diffutils"
+    arch_pkgbase: "diffutils"
+    repository: "only-core"
+    build_order: 11
     enabled: true
 
   coreutils:
@@ -42,5 +90,5 @@ packages:
     lfs_source_name: "coreutils"
     arch_pkgbase: "coreutils"
     repository: "only-core"
-    build_order: 6
+    build_order: 12
     enabled: true
