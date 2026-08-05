@@ -15,6 +15,14 @@ packages=(
   file
   diffutils
   coreutils
+  sed
+  grep
+  gawk
+  findutils
+  gzip
+  make
+  patch
+  tar
 )
 
 pacman -Syu --noconfirm
