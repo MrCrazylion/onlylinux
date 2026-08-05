@@ -1,0 +1,7 @@
+output/
+*.pkg.tar.zst
+*.pkg.tar.zst.sig
+**/src/
+**/pkg/
+__pycache__/
+*.py[cod]
