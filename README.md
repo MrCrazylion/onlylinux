@@ -78,10 +78,15 @@ onlylinux/
 │   └── README.md
 ├── packages/
 │   └── core/
-│       └── bash/
-│           └── PKGBUILD
+│       ├── filesystem/PKGBUILD
+│       ├── zlib/PKGBUILD
+│       ├── xz/PKGBUILD
+│       ├── zstd/PKGBUILD
+│       ├── bash/PKGBUILD
+│       └── coreutils/PKGBUILD
 ├── scripts/
-│   └── import_lfs.py
+│   ├── import_lfs.py
+│   └── build_bootstrap.sh
 ├── .gitignore
 ├── LICENSE
 └── README.md
@@ -91,7 +96,7 @@ Generated build products are written under `output/` on GitHub-hosted runners an
 
 ## Bootstrap pipeline
 
-The initial pipeline imports stable Linux From Scratch metadata, verifies the selected Bash version, builds the package inside an Arch Linux container, creates an `only-core` ALPM repository database, and uploads the result as a GitHub Actions artifact.
+The bootstrap pipeline imports stable Linux From Scratch metadata, verifies package versions, and builds `filesystem`, `zlib`, `xz`, `zstd`, `bash`, and `coreutils` inside an Arch Linux container. It then creates an `only-core` ALPM repository database and uploads the complete repository as a GitHub Actions artifact.
 
 ## Current scope
 
