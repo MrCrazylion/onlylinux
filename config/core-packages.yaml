@@ -1,0 +1,8 @@
+packages:
+  bash:
+    version_source: "lfs"
+    lfs_source_name: "bash"
+    arch_pkgbase: "bash"
+    repository: "only-core"
+    build_order: 1
+    enabled: true
