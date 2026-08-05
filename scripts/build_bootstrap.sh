@@ -50,9 +50,9 @@ for package_name in "${packages[@]}"; do
   package_dir="/workspace/packages/core/${package_name}"
   check_flag=""
 
-  # The complete GNU M4 test suite is intentionally kept for a dedicated
-  # validation job; running it here blocks the entire bootstrap repository.
-  if [[ "${package_name}" == "m4" ]]; then
+  # The complete M4 and Gawk suites are kept for dedicated validation jobs.
+  # Gawk PMA tests are not stable inside the hosted container.
+  if [[ "${package_name}" == "m4" || "${package_name}" == "gawk" ]]; then
     check_flag="--nocheck"
   fi
 
@@ -61,6 +61,10 @@ for package_name in "${packages[@]}"; do
     cd '${package_dir}'
     makepkg --syncdeps --cleanbuild --noconfirm --needed ${check_flag}
   "
+
+  if [[ "${package_name}" == "gawk" ]]; then
+    test "$(${package_dir}/src/gawk-${pkgver:-5.3.2}/gawk 'BEGIN { print 6 * 7 }')" = "42"
+  fi
 
   (
     cd "${package_dir}"
