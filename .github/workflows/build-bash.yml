@@ -10,7 +10,7 @@ jobs:
   build-core-bootstrap:
     name: Build only-core bootstrap repository
     runs-on: ubuntu-24.04
-    timeout-minutes: 90
+    timeout-minutes: 120
 
     steps:
       - name: Check out repository
@@ -44,6 +44,14 @@ jobs:
               "file": "file",
               "diffutils": "diffutils",
               "coreutils": "coreutils",
+              "sed": "sed",
+              "grep": "grep",
+              "gawk": "gawk",
+              "findutils": "findutils",
+              "gzip": "gzip",
+              "make": "make",
+              "patch": "patch",
+              "tar": "tar",
           }
 
           for package_name, lfs_name in packages.items():
@@ -91,7 +99,7 @@ jobs:
             -exec cp -v {} output/packages/ \;
 
           package_count="$(find output/packages -type f -name '*.pkg.tar.zst' | wc -l)"
-          test "$package_count" -eq 12
+          test "$package_count" -eq 20
           echo "Collected $package_count bootstrap packages"
 
       - name: Create only-core repository database
