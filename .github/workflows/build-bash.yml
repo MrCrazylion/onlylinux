@@ -1,0 +1,123 @@
+name: Build Bash Package
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-bash:
+    name: Build Bash and create only-core repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Import stable LFS package metadata
+        run: python3 scripts/import_lfs.py
+
+      - name: Validate Bash version against LFS
+        run: |
+          python3 - <<'PY'
+          import json
+          import re
+          from pathlib import Path
+
+          manifest = json.loads(Path("manifests/lfs-packages.json").read_text())
+          bash = next(
+              package
+              for package in manifest["packages"]
+              if package["source_name"] == "bash"
+          )
+
+          pkgbuild = Path("packages/core/bash/PKGBUILD").read_text()
+          match = re.search(r"^pkgver=(.+)$", pkgbuild, re.MULTILINE)
+          if match is None:
+              raise SystemExit("PKGBUILD does not define pkgver")
+
+          recipe_version = match.group(1).strip()
+          if recipe_version != bash["version"]:
+              raise SystemExit(
+                  f"Bash version mismatch: PKGBUILD={recipe_version}, "
+                  f"LFS={bash['version']}"
+              )
+
+          print(f"LFS Bash version: {bash['version']}")
+          print(f"LFS Bash source:  {bash['url']}")
+          PY
+
+      - name: Build Bash in an Arch Linux container
+        run: |
+          docker run --rm \
+            --volume "$GITHUB_WORKSPACE:/workspace" \
+            --workdir /workspace \
+            archlinux:base-devel \
+            bash -euxo pipefail -c '
+              pacman -Syu --noconfirm
+              pacman -S --needed --noconfirm git sudo namcap
+
+              useradd --create-home builder
+              printf "%s\n" "builder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/builder
+              chmod 440 /etc/sudoers.d/builder
+              chown -R builder:builder /workspace/packages/core/bash
+
+              sudo -u builder bash -c "
+                cd /workspace/packages/core/bash
+                makepkg --syncdeps --cleanbuild --noconfirm --needed
+              "
+            '
+
+      - name: Inspect recipe and package
+        run: |
+          docker run --rm \
+            --volume "$GITHUB_WORKSPACE:/workspace" \
+            --workdir /workspace/packages/core/bash \
+            archlinux:base-devel \
+            bash -euxo pipefail -c '
+              pacman -Syu --noconfirm
+              pacman -S --needed --noconfirm namcap
+
+              namcap PKGBUILD || true
+              for package in ./*.pkg.tar.zst; do
+                namcap "$package" || true
+              done
+            '
+
+      - name: Collect Bash package
+        run: |
+          mkdir -p output/packages
+
+          find packages/core/bash \
+            -maxdepth 1 \
+            -type f \
+            -name "*.pkg.tar.zst" \
+            -exec cp -v {} output/packages/ \;
+
+          test -n "$(find output/packages -type f -name '*.pkg.tar.zst' -print -quit)"
+
+      - name: Create only-core repository database
+        run: |
+          docker run --rm \
+            --volume "$GITHUB_WORKSPACE:/workspace" \
+            --workdir /workspace/output/packages \
+            archlinux:base-devel \
+            bash -euxo pipefail -c '
+              repo-add only-core.db.tar.zst ./*.pkg.tar.zst
+            '
+
+      - name: Upload Only Linux bootstrap repository
+        uses: actions/upload-artifact@v4
+        with:
+          name: only-core-bash-bootstrap
+          path: |
+            output/packages/*.pkg.tar.zst
+            output/packages/only-core.db*
+            output/packages/only-core.files*
+            manifests/lfs-packages.json
+            config/release.yaml
+            config/core-packages.yaml
+          retention-days: 7
+          if-no-files-found: error
