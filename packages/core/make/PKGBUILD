@@ -10,7 +10,7 @@ license=('GPL-3.0-or-later')
 depends=('glibc')
 options=('!debug')
 source=("https://ftp.gnu.org/gnu/make/make-${pkgver}.tar.gz")
-md5sums=('8051eef7239b2f187791f2ab0034d6b7')
+md5sums=('c8469a3713cbbe04d955d4ae4be23eeb')
 
 build() {
   cd "${srcdir}/make-${pkgver}"
