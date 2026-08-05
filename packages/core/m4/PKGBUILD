@@ -2,14 +2,14 @@
 
 pkgname=m4
 pkgver=1.4.21
-pkgrel=1
+pkgrel=2
 pkgdesc="GNU macro processor"
 arch=('x86_64')
 url="https://www.gnu.org/software/m4/"
 license=('GPL-3.0-or-later')
 depends=('glibc' 'bash')
 options=('!debug')
-source=("https://ftpmirror.gnu.org/m4/m4-${pkgver}.tar.xz")
+source=("https://ftp.gnu.org/gnu/m4/m4-${pkgver}.tar.xz")
 md5sums=('8051eef7239b2f187791f2ab0034d6b7')
 
 build() {
