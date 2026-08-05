@@ -1,0 +1,28 @@
+# Maintainer: Only Linux Project
+
+pkgname=coreutils
+pkgver=9.10
+pkgrel=1
+pkgdesc="GNU core utilities for file, shell, and text operations"
+arch=('x86_64')
+url="https://www.gnu.org/software/coreutils/"
+license=('GPL-3.0-or-later')
+depends=('glibc' 'acl' 'attr' 'gmp' 'libcap' 'openssl')
+options=('!debug')
+source=("https://ftpmirror.gnu.org/coreutils/coreutils-${pkgver}.tar.xz")
+md5sums=('b0482ebec42fd48e95cb9187d566b9e4')
+
+build() {
+  cd "${srcdir}/coreutils-${pkgver}"
+
+  ./configure \
+    --prefix=/usr \
+    --enable-no-install-program=kill,uptime
+
+  make
+}
+
+package() {
+  cd "${srcdir}/coreutils-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+}
