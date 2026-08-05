@@ -9,7 +9,7 @@ url="https://www.gnu.org/software/make/"
 license=('GPL-3.0-or-later')
 depends=('glibc')
 options=('!debug')
-source=("https://ftp.gnu.org/gnu/make/make-${pkgver}.tar.gz")
+source=("https://mirrors.kernel.org/gnu/make/make-${pkgver}.tar.gz")
 md5sums=('c8469a3713cbbe04d955d4ae4be23eeb')
 
 build() {
