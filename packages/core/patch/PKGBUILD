@@ -9,7 +9,7 @@ url="https://www.gnu.org/software/patch/"
 license=('GPL-3.0-or-later')
 depends=('glibc' 'attr')
 options=('!debug')
-source=("https://ftp.gnu.org/gnu/patch/patch-${pkgver}.tar.xz")
+source=("https://mirrors.kernel.org/gnu/patch/patch-${pkgver}.tar.xz")
 md5sums=('149327a021d41c8f88d034eab41c039f')
 
 build() {
