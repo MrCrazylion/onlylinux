@@ -1,0 +1,29 @@
+# Maintainer: Only Linux Project
+
+pkgname=grep
+pkgver=3.12
+pkgrel=1
+pkgdesc="GNU string search utility"
+arch=('x86_64')
+url="https://www.gnu.org/software/grep/"
+license=('GPL-3.0-or-later')
+depends=('glibc' 'pcre2')
+options=('!debug')
+source=("https://ftp.gnu.org/gnu/grep/grep-${pkgver}.tar.xz")
+md5sums=('5d9301ed9d209c4a88c8d3a6fd08b9ac')
+
+build() {
+  cd "${srcdir}/grep-${pkgver}"
+  ./configure --prefix=/usr
+  make
+}
+
+check() {
+  cd "${srcdir}/grep-${pkgver}"
+  make check
+}
+
+package() {
+  cd "${srcdir}/grep-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+}
