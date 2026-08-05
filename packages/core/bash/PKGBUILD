@@ -2,7 +2,7 @@
 
 pkgname=bash
 pkgver=5.3
-pkgrel=2
+pkgrel=3
 pkgdesc="The GNU Bourne Again shell, packaged for Only Linux"
 arch=('x86_64')
 url="https://www.gnu.org/software/bash/"
@@ -11,31 +11,25 @@ depends=('glibc' 'readline')
 makedepends=('texinfo')
 provides=('sh')
 options=('!debug')
-source=("https://ftpmirror.gnu.org/bash/bash-${pkgver}.tar.gz")
+source=("https://ftp.gnu.org/gnu/bash/bash-${pkgver}.tar.gz")
 md5sums=('977c8c0c5ae6309191e7768e28ebc951')
 
 build() {
   cd "${srcdir}/bash-${pkgver}"
-
   ./configure \
     --prefix=/usr \
     --with-curses \
     --with-installed-readline \
     --without-bash-malloc
-
   make
 }
 
 package() {
   cd "${srcdir}/bash-${pkgver}"
-
   make DESTDIR="${pkgdir}" install
-
   install -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
-
   ln -s bash "${pkgdir}/usr/bin/sh"
-
   rm -rf "${pkgdir}/usr/lib/bash"
   rm -f "${pkgdir}/usr/bin/bashbug"
 }
