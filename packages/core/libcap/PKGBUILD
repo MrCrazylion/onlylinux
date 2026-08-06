@@ -31,5 +31,5 @@ package() {
     lib=lib \
     RAISE_SETFCAP=no \
     install
-  install -Dm644 License "LICENSE" ${pkgdir}/usr/share/licenses/${pkgname}/License
+  install -Dm644 License "${pkgdir}/usr/share/licenses/${pkgname}/License"
 }
