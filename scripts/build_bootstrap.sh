@@ -29,8 +29,19 @@ packages=(
   tar
 )
 
+source_cache="$(find /workspace/.cache/lfs/sources \
+  -type f \
+  -name 'bash-5.3.tar.gz' \
+  -printf '%h\n' \
+  -quit)"
+
+if [[ -z "${source_cache}" || ! -d "${source_cache}" ]]; then
+  echo "The verified LFS source cache is missing" >&2
+  exit 1
+fi
+
 pacman -Syu --noconfirm
-pacman -S --needed --noconfirm git sudo namcap
+pacman -S --needed --noconfirm sudo namcap
 
 if ! id builder >/dev/null 2>&1; then
   useradd --create-home builder
@@ -38,6 +49,10 @@ fi
 
 printf '%s\n' 'builder ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/builder
 chmod 440 /etc/sudoers.d/builder
+chown -R builder:builder /workspace/.cache/lfs/sources
+printf '\nSRCDEST=%q\n' "${source_cache}" >> /etc/makepkg.conf
+
+echo "Using verified LFS source cache: ${source_cache}"
 
 for package_name in "${packages[@]}"; do
   package_dir="/workspace/packages/core/${package_name}"
