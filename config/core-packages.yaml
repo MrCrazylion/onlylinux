@@ -156,3 +156,35 @@ packages:
     repository: "only-core"
     build_order: 20
     enabled: true
+
+  attr:
+    version_source: "lfs"
+    lfs_source_name: "attr"
+    arch_pkgbase: "attr"
+    repository: "only-core"
+    build_order: 21
+    enabled: true
+
+  acl:
+    version_source: "lfs"
+    lfs_source_name: "acl"
+    arch_pkgbase: "acl"
+    repository: "only-core"
+    build_order: 22
+    enabled: true
+
+  libcap:
+    version_source: "lfs"
+    lfs_source_name: "libcap"
+    arch_pkgbase: "libcap"
+    repository: "only-core"
+    build_order: 23
+    enabled: true
+
+  libxcrypt:
+    version_source: "lfs"
+    lfs_source_name: "libxcrypt"
+    arch_pkgbase: "libxcrypt"
+    repository: "only-core"
+    build_order: 24
+    enabled: true
