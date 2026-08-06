@@ -107,7 +107,17 @@ onlylinux/
 │       ├── gzip/PKGBUILD
 │       ├── make/PKGBUILD
 │       ├── patch/PKGBUILD
-│       └── tar/PKGBUILD
+│       ├── tar/PKGBUILD
+│       ├── gmp/PKGBUILD
+│       ├── mpfr/PKGBUILD
+│       ├── mpc/PKGBUILD
+│       ├── bison/PKGBUILD
+│       ├── flex/PKGBUILD
+│       ├── bc/PKGBUILD
+│       ├── pkgconf/PKGBUILD
+│       ├── binutils/PKGBUILD
+│       ├── gperf/PKGBUILD
+│       └── libffi/PKGBUILD
 ├── scripts/
 │   ├── detect_lfs_release.py
 │   ├── import_lfs.py
@@ -137,7 +147,7 @@ Manual runs can select `latest` or a specific available stable release. They reb
 
 ## Current bootstrap package set
 
-The workflow builds thirty packages inside an Arch Linux container:
+The workflow builds thirty-four packages inside an Arch Linux container:
 
 - `filesystem`
 - `attr`
@@ -169,6 +179,10 @@ The workflow builds thirty packages inside an Arch Linux container:
 - `bison`
 - `flex`
 - `bc`
+- `pkgconf`
+- `binutils`
+- `gperf`
+- `libffi`
 
 The workflow creates an `only-core` ALPM repository database and uploads a versioned GitHub Actions artifact.
 
