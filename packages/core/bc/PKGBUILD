@@ -12,6 +12,7 @@ md5sums=('ad4db5a0eb4fdbb3f6813be4b6b3da74')
 
 build() {
   cd "${pkgname}-${pkgver}"
+  CFLAGS+=" -std=gnu17"
   CC=gcc ./configure.sh --prefix=/usr -G -O3 -r
   make
 }
