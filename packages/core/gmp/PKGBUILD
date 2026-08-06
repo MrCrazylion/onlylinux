@@ -12,8 +12,10 @@ md5sums=('956dc04e864001a9c22429f761f2c283')
 build() {
   cd "${pkgname}-${pkgver}"
   ./configure \
+    --build=x86_64-pc-linux-gnu \
     --prefix=/usr \
     --enable-cxx \
+    --enable-fat \
     --disable-static \
     --docdir="/usr/share/doc/${pkgname}-${pkgver}"
   make
