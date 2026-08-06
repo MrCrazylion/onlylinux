@@ -17,7 +17,8 @@ prepare() {
 
   # Match the upstream fix for newer compilers that diagnose the const cast.
   sed -i 's/(const char \*) intbuf->retval/(char *) intbuf->retval/' \
-    lib/crypt-gost-yescrypt.c
+    lib/crypt-gost-yescrypt.c \
+    lib/crypt-sm3-yescrypt.c
 }
 
 build() {
