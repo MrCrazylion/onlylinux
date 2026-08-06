@@ -4,6 +4,10 @@ set -euo pipefail
 
 packages=(
   filesystem
+  pkgconf
+  binutils
+  gperf
+  libffi
   gmp
   mpfr
   mpc
