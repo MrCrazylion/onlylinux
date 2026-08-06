@@ -1,0 +1,31 @@
+# Maintainer: Only Linux Project
+
+pkgname=acl
+pkgver=2.3.2
+pkgrel=1
+pkgdesc="Access control list utilities, libraries and headers"
+arch=('x86_64')
+url="https://savannah.nongnu.org/projects/acl"
+license=('GPL-2.0-or-later' 'LGPL-2.1-or-later')
+depends=('glibc' 'attr')
+options=('!debug')
+source=("https://mirrors.kernel.org/savannah/acl/acl-${pkgver}.tar.xz")
+md5sums=('590765dee95907dbc3c856f7255bd669')
+
+build() {
+  cd "${srcdir}/acl-${pkgver}"
+  ./configure \
+    --prefix=/usr \
+    --disable-static
+  make
+}
+
+check() {
+  cd "${srcdir}/acl-${pkgver}"
+  make check
+}
+
+package() {
+  cd "${srcdir}/acl-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+}
