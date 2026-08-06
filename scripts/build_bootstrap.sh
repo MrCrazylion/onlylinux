@@ -31,7 +31,7 @@ packages=(
 
 source_cache="$(find /workspace/.cache/lfs/sources \
   -type f \
-  -name 'bash-5.3.tar.gz' \
+  -name 'bash-*.tar.*' \
   -printf '%h\n' \
   -quit)"
 
