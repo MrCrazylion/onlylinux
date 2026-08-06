@@ -12,7 +12,7 @@ from urllib.parse import urlparse
 
 LFS_RELEASE = "13.0"
 LFS_DOWNLOADS = (
-    f"https://www.linuxfromscratch.org/lfs/downloads/{LFS_RELEASE}"
+    f"https://www.linuxfromscratch.org/lfs/downloads/{LFS_RELEASE}-systemd"
 )
 OUTPUT_PATH = Path("manifests/lfs-packages.json")
 ARCHIVE_SUFFIXES = (
