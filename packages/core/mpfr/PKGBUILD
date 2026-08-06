@@ -1,0 +1,29 @@
+pkgname=mpfr
+pkgver=4.2.2
+pkgrel=1
+pkgdesc="Multiple-precision floating-point library"
+arch=('x86_64')
+url="https://www.mpfr.org/"
+license=('LGPL-3.0-or-later')
+depends=('glibc' 'gmp')
+source=("https://ftpmirror.gnu.org/mpfr/mpfr-${pkgver}.tar.xz")
+md5sums=('7c32c39b8b6e3ae85f25156228156061')
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  ./configure \
+    --prefix=/usr \
+    --disable-static \
+    --enable-thread-safe
+  make
+}
+
+check() {
+  cd "${pkgname}-${pkgver}"
+  make check
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+}
