@@ -1,0 +1,28 @@
+pkgname=bc
+pkgver=7.0.3
+pkgrel=1
+pkgdesc="Arbitrary precision calculator language"
+arch=('x86_64')
+url="https://gavinhoward.com/bc/"
+license=('BSD-2-Clause')
+depends=('glibc' 'readline')
+options=('!debug')
+source=("https://github.com/gavinhoward/bc/releases/download/${pkgver}/bc-${pkgver}.tar.xz")
+md5sums=('ad4db5a0eb4fdbb3f6813be4b6b3da74')
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  CC=gcc ./configure.sh --prefix=/usr -G -O3 -r
+  make
+}
+
+check() {
+  cd "${pkgname}-${pkgver}"
+  make test
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+  install -Dm644 LICENSE.md "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
