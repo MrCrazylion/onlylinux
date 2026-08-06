@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 import re
 import sys
 import urllib.request
@@ -10,10 +11,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 
-LFS_RELEASE = "13.0"
-LFS_DOWNLOADS = (
-    f"https://www.linuxfromscratch.org/lfs/downloads/{LFS_RELEASE}-systemd"
-)
+LFS_RELEASE = os.environ.get("LFS_RELEASE", "").strip()
 OUTPUT_PATH = Path("manifests/lfs-packages.json")
 ARCHIVE_SUFFIXES = (
     ".tar.xz",
@@ -71,9 +69,18 @@ def parse_checksums(contents: str) -> dict[str, str]:
 
 
 def main() -> int:
+    if not re.fullmatch(r"\d+(?:\.\d+)*", LFS_RELEASE):
+        print("LFS_RELEASE must contain a stable release number", file=sys.stderr)
+        return 1
+
+    lfs_downloads = (
+        "https://www.linuxfromscratch.org/lfs/downloads/"
+        f"{LFS_RELEASE}-systemd"
+    )
+
     try:
-        wget_list = download_text(f"{LFS_DOWNLOADS}/wget-list")
-        md5sums = download_text(f"{LFS_DOWNLOADS}/md5sums")
+        wget_list = download_text(f"{lfs_downloads}/wget-list")
+        md5sums = download_text(f"{lfs_downloads}/md5sums")
     except Exception as error:
         print(f"Failed to download LFS metadata: {error}", file=sys.stderr)
         return 1
@@ -115,7 +122,7 @@ def main() -> int:
 
     output = {
         "release": LFS_RELEASE,
-        "metadata_source": LFS_DOWNLOADS,
+        "metadata_source": lfs_downloads,
         "package_count": len(packages),
         "packages": packages,
     }
