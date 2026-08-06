@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-lfs_release="${LFS_RELEASE:-13.0}"
+lfs_release="${LFS_RELEASE:?LFS_RELEASE must be set}"
 bundle_name="lfs-packages-${lfs_release}.tar"
 bundle_base_url="${LFS_BUNDLE_BASE_URL:-https://ftp.lfs-matrix.net/pub/lfs/lfs-packages}"
 workspace="${GITHUB_WORKSPACE:-$(pwd)}"
