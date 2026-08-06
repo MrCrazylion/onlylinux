@@ -52,6 +52,10 @@ jobs:
               "make": "make",
               "patch": "patch",
               "tar": "tar",
+              "attr": "attr",
+              "acl": "acl",
+              "libcap": "libcap",
+              "libxcrypt": "libxcrypt",
           }
 
           for package_name, lfs_name in packages.items():
@@ -99,7 +103,7 @@ jobs:
             -exec cp -v {} output/packages/ \;
 
           package_count="$(find output/packages -type f -name '*.pkg.tar.zst' | wc -l)"
-          test "$package_count" -eq 20
+          test "$package_count" -eq 24
           echo "Collected $package_count bootstrap packages"
 
       - name: Create only-core repository database
