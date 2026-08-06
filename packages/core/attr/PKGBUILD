@@ -1,0 +1,31 @@
+# Maintainer: Only Linux Project
+
+pkgname=attr
+pkgver=2.5.2
+pkgrel=1
+pkgdesc="Extended attribute utilities and library"
+arch=('x86_64')
+url="https://savannah.nongnu.org/projects/attr"
+license=('GPL-2.0-or-later' 'LGPL-2.1-or-later')
+depends=('glibc')
+options=('!debug')
+source=("https://mirrors.kernel.org/savannah/attr/attr-${pkgver}.tar.gz")
+md5sums=('227043ec2f6ca03c0948df5517f9c927')
+
+build() {
+  cd "${srcdir}/attr-${pkgver}"
+  ./configure \
+    --prefix=/usr \
+    --disable-static
+  make
+}
+
+check() {
+  cd "${srcdir}/attr-${pkgver}"
+  make check
+}
+
+package() {
+  cd "${srcdir}/attr-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+}
