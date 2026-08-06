@@ -1,0 +1,32 @@
+pkgname=pkgconf
+pkgver=2.5.1
+pkgrel=1
+pkgdesc="Package compiler and linker metadata toolkit"
+arch=('x86_64')
+url="https://github.com/pkgconf/pkgconf"
+license=('ISC')
+depends=('glibc')
+options=('!debug')
+source=("https://distfiles.ariadne.space/pkgconf/pkgconf-${pkgver}.tar.xz")
+md5sums=('3291128c917fdb8fccd8c9e7784b643b')
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  ./configure \
+    --prefix=/usr \
+    --disable-static \
+    --docdir="/usr/share/doc/${pkgname}-${pkgver}"
+  make
+}
+
+check() {
+  cd "${pkgname}-${pkgver}"
+  make check
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+  make DESTDIR="$pkgdir" install
+  ln -sf pkgconf "$pkgdir/usr/bin/pkg-config"
+  ln -sf pkgconf.1 "$pkgdir/usr/share/man/man1/pkg-config.1"
+}
