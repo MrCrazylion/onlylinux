@@ -72,7 +72,7 @@ onlylinux/
 ├── .github/
 │   └── workflows/
 │       ├── test-build.yml
-│       └── build-bash.yml
+│       └── build-core-bootstrap.yml
 ├── config/
 │   ├── release.yaml
 │   └── core-packages.yaml
@@ -101,7 +101,11 @@ onlylinux/
 │       ├── gzip/PKGBUILD
 │       ├── make/PKGBUILD
 │       ├── patch/PKGBUILD
-│       └── tar/PKGBUILD
+│       ├── tar/PKGBUILD
+│       ├── attr/PKGBUILD
+│       ├── acl/PKGBUILD
+│       ├── libcap/PKGBUILD
+│       └── libxcrypt/PKGBUILD
 ├── scripts/
 │   ├── import_lfs.py
 │   └── build_bootstrap.sh
@@ -114,7 +118,7 @@ Generated build products are written under `output/` on GitHub-hosted runners an
 
 ## Bootstrap pipeline
 
-The bootstrap pipeline imports stable Linux From Scratch metadata, verifies package versions, and performs a source-integrity preflight before compiling anything. It builds twenty packages inside an Arch Linux container:
+The bootstrap pipeline imports stable Linux From Scratch metadata, verifies package versions, and performs a source-integrity preflight before compiling anything. It builds twenty-four packages inside an Arch Linux container:
 
 - `filesystem`
 - `zlib`
@@ -136,6 +140,10 @@ The bootstrap pipeline imports stable Linux From Scratch metadata, verifies pack
 - `make`
 - `patch`
 - `tar`
+- `attr`
+- `acl`
+- `libcap`
+- `libxcrypt`
 
 The workflow then creates an `only-core` ALPM repository database and uploads the complete repository as a GitHub Actions artifact.
 
