@@ -4,6 +4,12 @@ set -euo pipefail
 
 packages=(
   filesystem
+  gmp
+  mpfr
+  mpc
+  bison
+  flex
+  bc
   attr
   acl
   libcap
@@ -27,12 +33,6 @@ packages=(
   make
   patch
   tar
-  gmp
-  mpfr
-  mpc
-  bison
-  flex
-  bc
 )
 
 source_cache="$(find /workspace/.cache/lfs/sources \
