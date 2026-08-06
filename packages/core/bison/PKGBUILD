@@ -1,0 +1,26 @@
+pkgname=bison
+pkgver=3.8.2
+pkgrel=1
+pkgdesc="The GNU general-purpose parser generator"
+arch=('x86_64')
+url="https://www.gnu.org/software/bison/"
+license=('GPL-3.0-or-later')
+depends=('glibc' 'm4')
+source=("https://ftpmirror.gnu.org/bison/bison-${pkgver}.tar.xz")
+md5sums=('c28f119f405a2304ff0a7ccdcc629713')
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  ./configure --prefix=/usr
+  make
+}
+
+check() {
+  cd "${pkgname}-${pkgver}"
+  make check
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+}
