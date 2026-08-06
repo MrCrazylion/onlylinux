@@ -9,7 +9,7 @@ url="https://savannah.nongnu.org/projects/acl"
 license=('GPL-2.0-or-later' 'LGPL-2.1-or-later')
 depends=('glibc' 'attr')
 options=('!debug')
-source=("https://download.savannah.gnu.org/releases/acl/acl-${pkgver}.tar.xz")
+source=("https://download-mirror.savannah.gnu.org/releases/acl/acl-${pkgver}.tar.xz")
 md5sums=('590765dee95907dbc3c856f7255bd669')
 
 build() {
