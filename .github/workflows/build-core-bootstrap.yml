@@ -2,12 +2,25 @@ name: Build Core Bootstrap
 
 on:
   workflow_dispatch:
+    inputs:
+      lfs_release:
+        description: Stable LFS release number, or latest
+        required: false
+        default: latest
+        type: string
+      force_rebuild:
+        description: Rebuild even when this release is already cached
+        required: false
+        default: true
+        type: boolean
+  schedule:
+    - cron: "17 3 * * *"
 
 permissions:
   contents: read
 
 env:
-  LFS_RELEASE: "13.0"
+  LFS_BUNDLE_INDEX: "https://ftp.lfs-matrix.net/pub/lfs/lfs-packages/"
   LFS_BUNDLE_BASE_URL: "https://ftp.lfs-matrix.net/pub/lfs/lfs-packages"
 
 jobs:
@@ -20,29 +33,66 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v7
 
-      - name: Import LFS 13.0 package metadata
-        run: python3 scripts/import_lfs.py
+      - name: Detect latest stable LFS release
+        id: lfs-release
+        env:
+          REQUESTED_RELEASE: ${{ inputs.lfs_release || 'latest' }}
+        run: |
+          release="$(python3 scripts/detect_lfs_release.py)"
+          echo "release=${release}" >> "$GITHUB_OUTPUT"
+          echo "LFS_RELEASE=${release}" >> "$GITHUB_ENV"
+          echo "Selected LFS ${release}"
 
-      - name: Restore LFS source bundle cache
-        uses: actions/cache@v6
+      - name: Look up LFS source bundle cache
+        id: lfs-source-cache
+        uses: actions/cache/restore@v6
         with:
           path: |
-            .cache/lfs/lfs-packages-13.0.tar
+            .cache/lfs/lfs-packages-${{ steps.lfs-release.outputs.release }}.tar
             .cache/lfs/MD5SUMS
-          key: lfs-source-bundle-13.0-v1
+          key: lfs-source-bundle-${{ steps.lfs-release.outputs.release }}-v1
+          lookup-only: ${{ github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.force_rebuild == false) }}
+
+      - name: Decide whether this release needs a build
+        id: build-decision
+        env:
+          CACHE_HIT: ${{ steps.lfs-source-cache.outputs.cache-hit }}
+          EVENT_NAME: ${{ github.event_name }}
+          FORCE_REBUILD: ${{ inputs.force_rebuild || false }}
+        run: |
+          build=true
+
+          if [[ "${CACHE_HIT}" == "true" ]]; then
+            if [[ "${EVENT_NAME}" == "schedule" ]]; then
+              build=false
+            elif [[ "${EVENT_NAME}" == "workflow_dispatch" && "${FORCE_REBUILD}" != "true" ]]; then
+              build=false
+            fi
+          fi
+
+          echo "build=${build}" >> "$GITHUB_OUTPUT"
+          echo "Build required: ${build}"
+
+      - name: Import selected LFS package metadata
+        if: steps.build-decision.outputs.build == 'true'
+        run: python3 scripts/import_lfs.py
 
       - name: Download, verify, and extract LFS source bundle
+        if: steps.build-decision.outputs.build == 'true'
         run: bash scripts/prepare_lfs_sources.sh
 
       - name: Validate package versions and bundled sources
+        if: steps.build-decision.outputs.build == 'true'
         run: |
           python3 - <<'PY'
           import json
+          import os
           import re
           from pathlib import Path
 
+          expected_release = os.environ["LFS_RELEASE"]
           manifest = json.loads(Path("manifests/lfs-packages.json").read_text())
-          if manifest.get("release") != "13.0":
+          if manifest.get("release") != expected_release:
               raise SystemExit(
                   f"Unexpected LFS release: {manifest.get('release')}"
               )
@@ -125,6 +175,7 @@ jobs:
           PY
 
       - name: Verify sources and build packages in Arch Linux
+        if: steps.build-decision.outputs.build == 'true'
         run: |
           docker run --rm \
             --volume "$GITHUB_WORKSPACE:/workspace" \
@@ -133,6 +184,7 @@ jobs:
             bash /workspace/scripts/build_bootstrap.sh
 
       - name: Collect bootstrap packages
+        if: steps.build-decision.outputs.build == 'true'
         run: |
           mkdir -p output/packages
 
@@ -148,6 +200,7 @@ jobs:
           echo "Collected $package_count bootstrap packages"
 
       - name: Create only-core repository database
+        if: steps.build-decision.outputs.build == 'true'
         run: |
           docker run --rm \
             --volume "$GITHUB_WORKSPACE:/workspace" \
@@ -158,9 +211,10 @@ jobs:
             '
 
       - name: Upload Only Linux bootstrap repository
+        if: steps.build-decision.outputs.build == 'true'
         uses: actions/upload-artifact@v7
         with:
-          name: only-core-bootstrap
+          name: only-core-bootstrap-${{ steps.lfs-release.outputs.release }}
           path: |
             output/packages/*.pkg.tar.zst
             output/packages/only-core.db*
@@ -171,3 +225,18 @@ jobs:
             docs/PACKAGING_POLICY.md
           retention-days: 7
           if-no-files-found: error
+
+      - name: Save verified LFS source bundle cache
+        if: steps.build-decision.outputs.build == 'true' && steps.lfs-source-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: |
+            .cache/lfs/lfs-packages-${{ steps.lfs-release.outputs.release }}.tar
+            .cache/lfs/MD5SUMS
+          key: lfs-source-bundle-${{ steps.lfs-release.outputs.release }}-v1
+
+      - name: Report unchanged LFS release
+        if: steps.build-decision.outputs.build == 'false'
+        run: |
+          echo "LFS $LFS_RELEASE has already been processed."
+          echo "No rebuild is needed."
