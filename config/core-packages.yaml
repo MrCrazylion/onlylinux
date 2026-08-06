@@ -1,238 +1,33 @@
-packages:
-  filesystem:
-    version_source: "onlylinux"
+
+
+  pkgconf:
+    version_source: "lfs"
+    lfs_source_name: "pkgconf"
+    arch_pkgbase: "pkgconf"
     repository: "only-core"
-    build_order: 1
+    build_order: 31
     enabled: true
 
-  zlib:
+  binutils:
     version_source: "lfs"
-    lfs_source_name: "zlib"
-    arch_pkgbase: "zlib"
+    lfs_source_name: "binutils"
+    arch_pkgbase: "binutils"
     repository: "only-core"
-    build_order: 2
+    build_order: 32
     enabled: true
 
-  xz:
+  gperf:
     version_source: "lfs"
-    lfs_source_name: "xz"
-    arch_pkgbase: "xz"
+    lfs_source_name: "gperf"
+    arch_pkgbase: "gperf"
     repository: "only-core"
-    build_order: 3
+    build_order: 33
     enabled: true
 
-  zstd:
+  libffi:
     version_source: "lfs"
-    lfs_source_name: "zstd"
-    arch_pkgbase: "zstd"
+    lfs_source_name: "libffi"
+    arch_pkgbase: "libffi"
     repository: "only-core"
-    build_order: 4
-    enabled: true
-
-  bzip2:
-    version_source: "lfs"
-    lfs_source_name: "bzip2"
-    arch_pkgbase: "bzip2"
-    repository: "only-core"
-    build_order: 5
-    enabled: true
-
-  ncurses:
-    version_source: "lfs"
-    lfs_source_name: "ncurses"
-    arch_pkgbase: "ncurses"
-    repository: "only-core"
-    build_order: 6
-    enabled: true
-
-  readline:
-    version_source: "lfs"
-    lfs_source_name: "readline"
-    arch_pkgbase: "readline"
-    repository: "only-core"
-    build_order: 7
-    enabled: true
-
-  bash:
-    version_source: "lfs"
-    lfs_source_name: "bash"
-    arch_pkgbase: "bash"
-    repository: "only-core"
-    build_order: 8
-    enabled: true
-
-  m4:
-    version_source: "lfs"
-    lfs_source_name: "m4"
-    arch_pkgbase: "m4"
-    repository: "only-core"
-    build_order: 9
-    enabled: true
-
-  file:
-    version_source: "lfs"
-    lfs_source_name: "file"
-    arch_pkgbase: "file"
-    repository: "only-core"
-    build_order: 10
-    enabled: true
-
-  diffutils:
-    version_source: "lfs"
-    lfs_source_name: "diffutils"
-    arch_pkgbase: "diffutils"
-    repository: "only-core"
-    build_order: 11
-    enabled: true
-
-  coreutils:
-    version_source: "lfs"
-    lfs_source_name: "coreutils"
-    arch_pkgbase: "coreutils"
-    repository: "only-core"
-    build_order: 12
-    enabled: true
-
-  sed:
-    version_source: "lfs"
-    lfs_source_name: "sed"
-    arch_pkgbase: "sed"
-    repository: "only-core"
-    build_order: 13
-    enabled: true
-
-  grep:
-    version_source: "lfs"
-    lfs_source_name: "grep"
-    arch_pkgbase: "grep"
-    repository: "only-core"
-    build_order: 14
-    enabled: true
-
-  gawk:
-    version_source: "lfs"
-    lfs_source_name: "gawk"
-    arch_pkgbase: "gawk"
-    repository: "only-core"
-    build_order: 15
-    enabled: true
-
-  findutils:
-    version_source: "lfs"
-    lfs_source_name: "findutils"
-    arch_pkgbase: "findutils"
-    repository: "only-core"
-    build_order: 16
-    enabled: true
-
-  gzip:
-    version_source: "lfs"
-    lfs_source_name: "gzip"
-    arch_pkgbase: "gzip"
-    repository: "only-core"
-    build_order: 17
-    enabled: true
-
-  make:
-    version_source: "lfs"
-    lfs_source_name: "make"
-    arch_pkgbase: "make"
-    repository: "only-core"
-    build_order: 18
-    enabled: true
-
-  patch:
-    version_source: "lfs"
-    lfs_source_name: "patch"
-    arch_pkgbase: "patch"
-    repository: "only-core"
-    build_order: 19
-    enabled: true
-
-  tar:
-    version_source: "lfs"
-    lfs_source_name: "tar"
-    arch_pkgbase: "tar"
-    repository: "only-core"
-    build_order: 20
-    enabled: true
-
-  attr:
-    version_source: "lfs"
-    lfs_source_name: "attr"
-    arch_pkgbase: "attr"
-    repository: "only-core"
-    build_order: 21
-    enabled: true
-
-  acl:
-    version_source: "lfs"
-    lfs_source_name: "acl"
-    arch_pkgbase: "acl"
-    repository: "only-core"
-    build_order: 22
-    enabled: true
-
-  libcap:
-    version_source: "lfs"
-    lfs_source_name: "libcap"
-    arch_pkgbase: "libcap"
-    repository: "only-core"
-    build_order: 23
-    enabled: true
-
-  libxcrypt:
-    version_source: "lfs"
-    lfs_source_name: "libxcrypt"
-    arch_pkgbase: "libxcrypt"
-    repository: "only-core"
-    build_order: 24
-    enabled: true
-
-  gmp:
-    version_source: "lfs"
-    lfs_source_name: "gmp"
-    arch_pkgbase: "gmp"
-    repository: "only-core"
-    build_order: 25
-    enabled: true
-
-  mpfr:
-    version_source: "lfs"
-    lfs_source_name: "mpfr"
-    arch_pkgbase: "mpfr"
-    repository: "only-core"
-    build_order: 26
-    enabled: true
-
-  mpc:
-    version_source: "lfs"
-    lfs_source_name: "mpc"
-    arch_pkgbase: "libmpc"
-    repository: "only-core"
-    build_order: 27
-    enabled: true
-
-  bison:
-    version_source: "lfs"
-    lfs_source_name: "bison"
-    arch_pkgbase: "bison"
-    repository: "only-core"
-    build_order: 28
-    enabled: true
-
-  flex:
-    version_source: "lfs"
-    lfs_source_name: "flex"
-    arch_pkgbase: "flex"
-    repository: "only-core"
-    build_order: 29
-    enabled: true
-
-  bc:
-    version_source: "lfs"
-    lfs_source_name: "bc"
-    arch_pkgbase: "bc"
-    repository: "only-core"
-    build_order: 30
+    build_order: 34
     enabled: true
