@@ -9,6 +9,11 @@ depends=('glibc')
 source=("https://ftpmirror.gnu.org/gmp/gmp-${pkgver}.tar.xz")
 md5sums=('956dc04e864001a9c22429f761f2c283')
 
+prepare() {
+  cd "${pkgname}-${pkgver}"
+  sed -i '/long long t1;/,+1s/()/(...)/' configure
+}
+
 build() {
   cd "${pkgname}-${pkgver}"
   ./configure \
