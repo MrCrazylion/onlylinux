@@ -18,7 +18,7 @@ version_sources:
 
 lfs:
   release: "13.0"
-  metadata: "https://www.linuxfromscratch.org/lfs/downloads/13.0"
+  metadata: "https://www.linuxfromscratch.org/lfs/downloads/13.0-systemd"
   source_bundle:
     url: "https://ftp.lfs-matrix.net/pub/lfs/lfs-packages/lfs-packages-13.0.tar"
     checksums: "https://ftp.lfs-matrix.net/pub/lfs/lfs-packages/MD5SUMS"
