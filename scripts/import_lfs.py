@@ -10,7 +10,10 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 
-LFS_DOWNLOADS = "https://www.linuxfromscratch.org/lfs/downloads/stable-systemd"
+LFS_RELEASE = "13.0"
+LFS_DOWNLOADS = (
+    f"https://www.linuxfromscratch.org/lfs/downloads/{LFS_RELEASE}"
+)
 OUTPUT_PATH = Path("manifests/lfs-packages.json")
 ARCHIVE_SUFFIXES = (
     ".tar.xz",
@@ -99,13 +102,19 @@ def main() -> int:
             }
         )
 
-    packages.sort(key=lambda package: (str(package["source_name"]), str(package["filename"])))
+    packages.sort(
+        key=lambda package: (
+            str(package["source_name"]),
+            str(package["filename"]),
+        )
+    )
 
     if not any(package["source_name"] == "bash" for package in packages):
         print("The LFS metadata did not contain Bash", file=sys.stderr)
         return 1
 
     output = {
+        "release": LFS_RELEASE,
         "metadata_source": LFS_DOWNLOADS,
         "package_count": len(packages),
         "packages": packages,
