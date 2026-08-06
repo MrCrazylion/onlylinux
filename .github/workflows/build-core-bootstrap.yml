@@ -6,6 +6,10 @@ on:
 permissions:
   contents: read
 
+env:
+  LFS_RELEASE: "13.0"
+  LFS_BUNDLE_BASE_URL: "https://ftp.lfs-matrix.net/pub/lfs/lfs-packages"
+
 jobs:
   build-core-bootstrap:
     name: Build only-core bootstrap repository
@@ -16,10 +20,21 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v7
 
-      - name: Import stable LFS package metadata
+      - name: Import LFS 13.0 package metadata
         run: python3 scripts/import_lfs.py
 
-      - name: Validate package versions against LFS
+      - name: Restore LFS source bundle cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            .cache/lfs/lfs-packages-13.0.tar
+            .cache/lfs/MD5SUMS
+          key: lfs-source-bundle-13.0-v1
+
+      - name: Download, verify, and extract LFS source bundle
+        run: bash scripts/prepare_lfs_sources.sh
+
+      - name: Validate package versions and bundled sources
         run: |
           python3 - <<'PY'
           import json
@@ -27,9 +42,19 @@ jobs:
           from pathlib import Path
 
           manifest = json.loads(Path("manifests/lfs-packages.json").read_text())
-          lfs_versions = {
-              package["source_name"]: package["version"]
+          if manifest.get("release") != "13.0":
+              raise SystemExit(
+                  f"Unexpected LFS release: {manifest.get('release')}"
+              )
+
+          lfs_packages = {
+              package["source_name"]: package
               for package in manifest["packages"]
+          }
+          bundled_files = {
+              path.name
+              for path in Path(".cache/lfs/sources").rglob("*")
+              if path.is_file()
           }
 
           packages = {
@@ -73,14 +98,30 @@ jobs:
                   )
 
               recipe_version = match.group(1).strip()
-              lfs_version = lfs_versions.get(lfs_name)
+              lfs_package = lfs_packages.get(lfs_name)
+              if lfs_package is None:
+                  raise SystemExit(
+                      f"{package_name}: missing from LFS metadata"
+                  )
+
+              lfs_version = lfs_package["version"]
               if recipe_version != lfs_version:
                   raise SystemExit(
                       f"{package_name}: version mismatch: "
                       f"PKGBUILD={recipe_version}, LFS={lfs_version}"
                   )
 
-              print(f"{package_name}: {recipe_version} (matches LFS)")
+              filename = lfs_package["filename"]
+              if filename not in bundled_files:
+                  raise SystemExit(
+                      f"{package_name}: {filename} is missing from "
+                      "the LFS source bundle"
+                  )
+
+              print(
+                  f"{package_name}: {recipe_version} "
+                  f"(matches LFS; bundled as {filename})"
+              )
           PY
 
       - name: Verify sources and build packages in Arch Linux
