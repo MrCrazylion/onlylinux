@@ -9,7 +9,7 @@ url="https://savannah.nongnu.org/projects/attr"
 license=('GPL-2.0-or-later' 'LGPL-2.1-or-later')
 depends=('glibc')
 options=('!debug')
-source=("https://download.savannah.gnu.org/releases/attr/attr-${pkgver}.tar.gz")
+source=("https://download-mirror.savannah.gnu.org/releases/attr/attr-${pkgver}.tar.gz")
 md5sums=('227043ec2f6ca03c0948df5517f9c927')
 
 build() {
