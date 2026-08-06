@@ -34,7 +34,7 @@ Only Linux is currently in the early design and bootstrap stage.
 The first development goals are:
 
 1. Define the core package set.
-2. Import package versions from the stable Linux From Scratch release.
+2. Import package versions from Linux From Scratch 13.0 systemd.
 3. Maintain independent package recipes.
 4. Build packages automatically in clean environments.
 5. Create signed Only Linux repositories.
@@ -49,7 +49,9 @@ Only Linux uses a layered package model.
 
 ### Core
 
-Core package versions are selected using the stable Linux From Scratch release as the version authority. Arch Linux packaging is used as the preferred engineering reference for recipes, while official upstream locations are preferred for source downloads.
+Core package versions are selected using the pinned Linux From Scratch 13.0 systemd release as the version authority. Arch Linux packaging is used as the preferred engineering reference for recipes.
+
+LFS sources are downloaded as one verified source bundle. Official upstream locations remain in the recipes as fallback sources.
 
 See [the packaging policy](docs/PACKAGING_POLICY.md) for the source fallback and integrity rules.
 
@@ -63,7 +65,7 @@ Additional packages are maintained independently and built for Only Linux reposi
 
 ## Build infrastructure
 
-Package builds are intended to run automatically in clean, reproducible environments on hosted infrastructure. Developers should not need to build the distribution directly on their personal computers.
+Package builds run automatically in clean environments on GitHub-hosted infrastructure. Developers do not need to build the distribution directly on their personal computers.
 
 ## Repository layout
 
@@ -83,6 +85,10 @@ onlylinux/
 ├── packages/
 │   └── core/
 │       ├── filesystem/PKGBUILD
+│       ├── attr/PKGBUILD
+│       ├── acl/PKGBUILD
+│       ├── libcap/PKGBUILD
+│       ├── libxcrypt/PKGBUILD
 │       ├── zlib/PKGBUILD
 │       ├── xz/PKGBUILD
 │       ├── zstd/PKGBUILD
@@ -101,26 +107,36 @@ onlylinux/
 │       ├── gzip/PKGBUILD
 │       ├── make/PKGBUILD
 │       ├── patch/PKGBUILD
-│       ├── tar/PKGBUILD
-│       ├── attr/PKGBUILD
-│       ├── acl/PKGBUILD
-│       ├── libcap/PKGBUILD
-│       └── libxcrypt/PKGBUILD
+│       └── tar/PKGBUILD
 ├── scripts/
 │   ├── import_lfs.py
+│   ├── prepare_lfs_sources.sh
 │   └── build_bootstrap.sh
 ├── .gitignore
 ├── LICENSE
 └── README.md
 ```
 
-Generated build products are written under `output/` on GitHub-hosted runners and are not committed to the repository. The generated `manifests/lfs-packages.json` file is included in workflow artifacts.
+Generated build products and source caches are written under `output/` and `.cache/` on GitHub-hosted runners and are not committed to the repository. The generated `manifests/lfs-packages.json` file is included in workflow artifacts.
 
 ## Bootstrap pipeline
 
-The bootstrap pipeline imports stable Linux From Scratch metadata, verifies package versions, and performs a source-integrity preflight before compiling anything. It builds twenty-four packages inside an Arch Linux container:
+The bootstrap pipeline:
+
+1. Imports the pinned LFS 13.0 metadata.
+2. Restores the LFS source bundle from the GitHub Actions cache when available.
+3. Downloads `lfs-packages-13.0.tar` only when the cache is empty.
+4. Verifies the complete bundle against its published checksum.
+5. Confirms that every required source is present and every recipe version matches LFS.
+6. Builds twenty-four packages inside an Arch Linux container.
+
+The current package set is:
 
 - `filesystem`
+- `attr`
+- `acl`
+- `libcap`
+- `libxcrypt`
 - `zlib`
 - `xz`
 - `zstd`
@@ -140,10 +156,6 @@ The bootstrap pipeline imports stable Linux From Scratch metadata, verifies pack
 - `make`
 - `patch`
 - `tar`
-- `attr`
-- `acl`
-- `libcap`
-- `libxcrypt`
 
 The workflow then creates an `only-core` ALPM repository database and uploads the complete repository as a GitHub Actions artifact.
 
