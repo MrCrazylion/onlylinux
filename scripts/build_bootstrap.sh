@@ -43,6 +43,12 @@ packages=(
   libpipeline
   man-pages
   gettext
+  gdbm
+  groff
+  texinfo
+  procps-ng
+  inetutils
+  iproute2
 )
 
 source_cache="$(find /workspace/.cache/lfs/sources \
