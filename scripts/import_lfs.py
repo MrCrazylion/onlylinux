@@ -98,7 +98,7 @@ def main() -> int:
         if parsed is None:
             # IANA uses tzdata<version> rather than tzdata-<version>.
             tzdata_match = re.match(
-                r"^tzdata(?P<version>[0-9][A-Za-z0-9._+-]*)\\.tar\\.gz$",
+                r"^tzdata(?P<version>[0-9][A-Za-z0-9._+-]*)\.tar\.gz$",
                 filename,
             )
             if tzdata_match is None:
