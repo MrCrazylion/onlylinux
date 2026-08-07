@@ -55,6 +55,9 @@ packages=(
   autoconf
   automake
   elfutils
+  linux-api-headers
+  tzdata
+  shadow
 )
 
 source_cache="$(find /workspace/.cache/lfs/sources \
