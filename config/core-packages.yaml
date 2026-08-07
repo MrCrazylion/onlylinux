@@ -80,3 +80,52 @@
     repository: "only-core"
     build_order: 40
     enabled: true
+
+
+  gdbm:
+    version_source: "lfs"
+    lfs_source_name: "gdbm"
+    arch_pkgbase: "gdbm"
+    repository: "only-core"
+    build_order: 41
+    enabled: true
+
+  groff:
+    version_source: "lfs"
+    lfs_source_name: "groff"
+    arch_pkgbase: "groff"
+    repository: "only-core"
+    build_order: 42
+    enabled: true
+
+  texinfo:
+    version_source: "lfs"
+    lfs_source_name: "texinfo"
+    arch_pkgbase: "texinfo"
+    repository: "only-core"
+    build_order: 43
+    enabled: true
+
+  procps-ng:
+    version_source: "lfs"
+    lfs_source_name: "procps-ng"
+    arch_pkgbase: "procps-ng"
+    repository: "only-core"
+    build_order: 44
+    enabled: true
+
+  inetutils:
+    version_source: "lfs"
+    lfs_source_name: "inetutils"
+    arch_pkgbase: "inetutils"
+    repository: "only-core"
+    build_order: 45
+    enabled: true
+
+  iproute2:
+    version_source: "lfs"
+    lfs_source_name: "iproute2"
+    arch_pkgbase: "iproute2"
+    repository: "only-core"
+    build_order: 46
+    enabled: true
