@@ -166,7 +166,7 @@ jobs:
               "perl": "perl",
               "perl-xml-parser": "XML-Parser",
               "intltool": "intltool",
-              "sqlite": "sqlite",
+              "sqlite": "sqlite-autoconf",
               "ninja": "ninja",
 
           }
