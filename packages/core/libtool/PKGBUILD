@@ -1,0 +1,27 @@
+pkgname=libtool
+pkgver=2.5.4
+pkgrel=1
+pkgdesc="Generic library support script"
+arch=('x86_64')
+url="https://www.gnu.org/software/libtool/"
+license=('GPL-2.0-or-later')
+depends=('glibc' 'perl')
+options=('!debug')
+source=("https://ftp.gnu.org/gnu/libtool/libtool-${pkgver}.tar.xz")
+md5sums=('22e0a29df8af5fdde276ea3a7d351d30')
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  ./configure --prefix=/usr
+  make
+}
+
+check() {
+  cd "${pkgname}-${pkgver}"
+  make check
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+  make DESTDIR="$pkgdir" install
+}
