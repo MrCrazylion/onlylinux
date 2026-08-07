@@ -1,0 +1,6 @@
+pkgname=openssl
+pkgver=3.6.1
+pkgrel=1
+arch=('x86_64')
+source=()
+md5sums=('589777dc85ebbfeca70161c0c384d572')
