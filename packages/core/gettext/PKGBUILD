@@ -1,0 +1,28 @@
+pkgname=gettext
+pkgver=1.0
+pkgrel=1
+pkgdesc="Internationalization and localization utilities"
+arch=('x86_64')
+url="https://www.gnu.org/software/gettext/"
+license=('GPL-3.0-or-later' 'LGPL-2.1-or-later')
+depends=('glibc' 'libxml2')
+options=('!debug')
+source=("https://ftp.gnu.org/pub/gnu/gettext/gettext-${pkgver}.tar.xz")
+md5sums=('dc8b2911535929cec1e263706b0a13a1')
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  ./configure     --prefix=/usr     --disable-static     --docdir="/usr/share/doc/${pkgname}-${pkgver}"
+  make
+}
+
+check() {
+  cd "${pkgname}-${pkgver}"
+  make check
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+  make DESTDIR="$pkgdir" install
+  chmod 0755 "$pkgdir/usr/lib/preloadable_libintl.so"
+}
