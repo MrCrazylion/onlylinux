@@ -1,0 +1,27 @@
+pkgname=psmisc
+pkgver=23.7
+pkgrel=1
+pkgdesc="Utilities for monitoring processes"
+arch=('x86_64')
+url="https://gitlab.com/psmisc/psmisc"
+license=('GPL-2.0-or-later')
+depends=('glibc' 'ncurses')
+options=('!debug')
+source=("https://sourceforge.net/projects/psmisc/files/psmisc/psmisc-${pkgver}.tar.xz")
+md5sums=('53eae841735189a896d614cba440eb10')
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  ./configure --prefix=/usr
+  make
+}
+
+check() {
+  cd "${pkgname}-${pkgver}"
+  make check
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+  make DESTDIR="$pkgdir" install
+}
