@@ -239,7 +239,7 @@
 
   sqlite:
     version_source: "lfs"
-    lfs_source_name: "sqlite"
+    lfs_source_name: "sqlite-autoconf"
     arch_pkgbase: "sqlite"
     repository: "only-core"
     build_order: 60
