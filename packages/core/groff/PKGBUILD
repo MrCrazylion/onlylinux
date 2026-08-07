@@ -8,7 +8,7 @@ license=('GPL-3.0-or-later')
 depends=('glibc' 'gcc-libs')
 options=('!debug')
 source=("https://ftp.gnu.org/gnu/groff/groff-${pkgver}.tar.gz")
-md5sums=('5d9301ed9d209c4a88c8d3a6fd08b9ac')
+md5sums=('5e4f40315a22bb8a158748e7d5094c7d')
 
 build() {
   cd "${pkgname}-${pkgver}"
