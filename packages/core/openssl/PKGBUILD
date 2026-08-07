@@ -2,5 +2,7 @@ pkgname=openssl
 pkgver=3.6.1
 pkgrel=1
 arch=('x86_64')
-source=()
+source=("https://www.openssl.org/source/openssl-3.6.1.tar.gz")
 md5sums=('589777dc85ebbfeca70161c0c384d572')
+build(){ cd openssl-3.6.1; ./Configure --prefix=/usr --openssldir=/etc/ssl --libdir=lib shared; make; }
+package(){ cd openssl-3.6.1; make DESTDIR="$pkgdir" install_sw; }
