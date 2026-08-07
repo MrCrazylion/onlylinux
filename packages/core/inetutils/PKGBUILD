@@ -10,9 +10,14 @@ options=('!debug')
 source=("https://ftp.gnu.org/gnu/inetutils/inetutils-${pkgver}.tar.gz")
 md5sums=('eed294e7b170cbbb0ff86493ef4c1273')
 
+prepare() {
+  cd "${pkgname}-${pkgver}"
+  sed -i 's/def HAVE_TERMCAP_TGETENT/ 1/' telnet/telnet.c
+}
+
 build() {
   cd "${pkgname}-${pkgver}"
-  ./configure     --prefix=/usr     --localstatedir=/var     --disable-logger     --disable-whois     --disable-servers
+  ./configure     --prefix=/usr     --bindir=/usr/bin     --localstatedir=/var     --disable-logger     --disable-whois     --disable-rcp     --disable-rexec     --disable-rlogin     --disable-rsh     --disable-servers
   make
 }
 
