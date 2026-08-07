@@ -21,6 +21,7 @@ build() {
     --enable-ld=default \
     --enable-plugins \
     --enable-shared \
+    --disable-gprofng \
     --disable-werror \
     --enable-64-bit-bfd \
     --enable-new-dtags \
