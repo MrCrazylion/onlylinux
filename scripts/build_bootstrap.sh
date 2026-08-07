@@ -37,6 +37,12 @@ packages=(
   make
   patch
   tar
+  iana-etc
+  psmisc
+  less
+  libpipeline
+  man-pages
+  gettext
 )
 
 source_cache="$(find /workspace/.cache/lfs/sources \
