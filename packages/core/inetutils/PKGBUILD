@@ -1,0 +1,27 @@
+pkgname=inetutils
+pkgver=2.7
+pkgrel=1
+pkgdesc="GNU networking utilities"
+arch=('x86_64')
+url="https://www.gnu.org/software/inetutils/"
+license=('GPL-3.0-or-later')
+depends=('glibc' 'ncurses' 'pam')
+options=('!debug')
+source=("https://ftp.gnu.org/gnu/inetutils/inetutils-${pkgver}.tar.gz")
+md5sums=('eed294e7b170cbbb0ff86493ef4c1273')
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  ./configure     --prefix=/usr     --localstatedir=/var     --disable-logger     --disable-whois     --disable-servers
+  make
+}
+
+check() {
+  cd "${pkgname}-${pkgver}"
+  make check
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+  make DESTDIR="$pkgdir" install
+}
