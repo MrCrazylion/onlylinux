@@ -138,7 +138,13 @@ onlylinux/
 │       ├── elfutils/PKGBUILD
 │       ├── linux-api-headers/PKGBUILD
 │       ├── tzdata/PKGBUILD
-│       └── shadow/PKGBUILD
+│       ├── shadow/PKGBUILD
+│       ├── openssl/PKGBUILD
+│       ├── perl/PKGBUILD
+│       ├── perl-xml-parser/PKGBUILD
+│       ├── intltool/PKGBUILD
+│       ├── sqlite/PKGBUILD
+│       └── ninja/PKGBUILD
 ├── scripts/
 │   ├── detect_lfs_release.py
 │   ├── import_lfs.py
@@ -168,7 +174,7 @@ Manual runs can select `latest` or a specific available stable release. They reb
 
 ## Current bootstrap package set
 
-The workflow builds fifty-five packages inside an Arch Linux container:
+The workflow builds sixty-one packages inside an Arch Linux container:
 
 - `filesystem`
 - `attr`
@@ -225,6 +231,12 @@ The workflow builds fifty-five packages inside an Arch Linux container:
 - `linux-api-headers`
 - `tzdata`
 - `shadow`
+- `openssl`
+- `perl`
+- `perl-xml-parser`
+- `intltool`
+- `sqlite`
+- `ninja`
 
 The workflow creates an `only-core` ALPM repository database and uploads a versioned GitHub Actions artifact.
 
