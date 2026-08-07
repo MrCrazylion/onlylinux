@@ -96,9 +96,17 @@ def main() -> int:
         filename = Path(urlparse(url).path).name
         parsed = split_name_and_version(filename)
         if parsed is None:
-            continue
-
-        source_name, version = parsed
+            # IANA uses tzdata<version> rather than tzdata-<version>.
+            tzdata_match = re.match(
+                r"^tzdata(?P<version>[0-9][A-Za-z0-9._+-]*)\\.tar\\.gz$",
+                filename,
+            )
+            if tzdata_match is None:
+                continue
+            source_name = "tzdata"
+            version = tzdata_match.group("version")
+        else:
+            source_name, version = parsed
         packages.append(
             {
                 "source_name": source_name,
