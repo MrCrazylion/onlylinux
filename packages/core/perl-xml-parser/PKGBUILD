@@ -1,0 +1,22 @@
+pkgname=perl-xml-parser
+pkgver=2.47
+pkgrel=1
+pkgdesc="Perl module for parsing XML documents"
+arch=('x86_64')
+url="https://metacpan.org/pod/XML::Parser"
+license=('GPL-1.0-or-later' 'Artistic-1.0-Perl')
+depends=('perl' 'expat')
+options=('!debug')
+source=("https://cpan.metacpan.org/authors/id/T/TO/TODDR/XML-Parser-${pkgver}.tar.gz")
+md5sums=('89a8e82cfd2ad948b349c0a69c494463')
+
+build() {
+  cd "XML-Parser-${pkgver}"
+  perl Makefile.PL
+  make
+}
+
+package() {
+  cd "XML-Parser-${pkgver}"
+  make DESTDIR="$pkgdir" install
+}
