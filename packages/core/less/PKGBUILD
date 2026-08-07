@@ -1,0 +1,27 @@
+pkgname=less
+pkgver=692
+pkgrel=1
+pkgdesc="Text file viewer"
+arch=('x86_64')
+url="https://www.greenwoodsoftware.com/less/"
+license=('GPL-3.0-or-later')
+depends=('glibc' 'ncurses' 'pcre2')
+options=('!debug')
+source=("https://www.greenwoodsoftware.com/less/less-${pkgver}.tar.gz")
+md5sums=('4efd31e34ecf7682a6c62a3c53007600')
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  ./configure --prefix=/usr --sysconfdir=/etc
+  make
+}
+
+check() {
+  cd "${pkgname}-${pkgver}"
+  make check
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+  make DESTDIR="$pkgdir" install
+}
