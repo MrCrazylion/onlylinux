@@ -1,0 +1,32 @@
+pkgname=texinfo
+pkgver=7.2
+pkgrel=1
+pkgdesc="GNU documentation system"
+arch=('x86_64')
+url="https://www.gnu.org/software/texinfo/"
+license=('GPL-3.0-or-later')
+depends=('glibc' 'perl')
+options=('!debug')
+source=("https://ftp.gnu.org/gnu/texinfo/texinfo-${pkgver}.tar.xz")
+md5sums=('11939a7624572814912a18e76c8d8972')
+
+prepare() {
+  cd "${pkgname}-${pkgver}"
+  sed 's/! $output_file eq/$output_file ne/' -i tp/Texinfo/Convert/*.pm
+}
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  ./configure --prefix=/usr
+  make
+}
+
+check() {
+  cd "${pkgname}-${pkgver}"
+  make check
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+  make DESTDIR="$pkgdir" install
+}
