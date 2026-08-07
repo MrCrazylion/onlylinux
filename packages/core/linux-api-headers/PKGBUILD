@@ -5,6 +5,7 @@ pkgdesc="Linux API headers"
 arch=('x86_64')
 url="https://www.kernel.org/"
 license=('GPL-2.0-only')
+makedepends=('rsync')
 source=("https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${pkgver}.tar.xz")
 md5sums=('660e706a43f634b1fcd911f8839d2f61')
 
