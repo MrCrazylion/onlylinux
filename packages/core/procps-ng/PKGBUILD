@@ -1,0 +1,27 @@
+pkgname=procps-ng
+pkgver=4.0.6
+pkgrel=1
+pkgdesc="Utilities for monitoring system processes"
+arch=('x86_64')
+url="https://gitlab.com/procps-ng/procps"
+license=('GPL-2.0-or-later' 'LGPL-2.1-or-later')
+depends=('glibc' 'ncurses' 'systemd-libs')
+options=('!debug')
+source=("https://sourceforge.net/projects/procps-ng/files/Production/procps-ng-${pkgver}.tar.xz")
+md5sums=('20c23dc3dd1569a2bb1d1fa93de213ed')
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  ./configure --prefix=/usr --docdir="/usr/share/doc/${pkgname}-${pkgver}" --disable-static
+  make
+}
+
+check() {
+  cd "${pkgname}-${pkgver}"
+  make check
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+  make DESTDIR="$pkgdir" install
+}
