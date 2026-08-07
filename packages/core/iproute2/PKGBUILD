@@ -1,0 +1,21 @@
+pkgname=iproute2
+pkgver=6.18.0
+pkgrel=1
+pkgdesc="Network configuration utilities"
+arch=('x86_64')
+url="https://wiki.linuxfoundation.org/networking/iproute2"
+license=('GPL-2.0-or-later')
+depends=('glibc' 'libbpf' 'libcap' 'libelf')
+options=('!debug')
+source=("https://www.kernel.org/pub/linux/utils/net/iproute2/iproute2-${pkgver}.tar.xz")
+md5sums=('9e3f70620db43fe0ecab29b36a47914d')
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  make
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+  make DESTDIR="$pkgdir" SBINDIR=/usr/bin install
+}
