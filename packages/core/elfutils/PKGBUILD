@@ -1,27 +1,25 @@
 pkgname=elfutils
 pkgver=0.194
 pkgrel=1
-pkgdesc="Utilities and libraries for handling ELF objects"
+pkgdesc="Libelf from the Elfutils source suite"
 arch=('x86_64')
 url="https://sourceware.org/elfutils/"
 license=('GPL-2.0-or-later' 'LGPL-3.0-or-later')
-depends=('glibc' 'bzip2' 'xz' 'zlib' 'zstd')
+depends=('glibc' 'zlib')
 options=('!debug')
 source=("https://sourceware.org/elfutils/ftp/${pkgver}/elfutils-${pkgver}.tar.bz2")
 md5sums=('1137792ea10e9194637d7344439a5955')
 
 build() {
   cd "${pkgname}-${pkgver}"
-  ./configure --prefix=/usr --disable-debuginfod
-  make
-}
-
-check() {
-  cd "${pkgname}-${pkgver}"
-  make check
+  ./configure     --prefix=/usr     --disable-debuginfod     --enable-libdebuginfod=dummy
+  make -C lib
+  make -C libelf
 }
 
 package() {
   cd "${pkgname}-${pkgver}"
-  make DESTDIR="$pkgdir" install
+  make -C libelf DESTDIR="$pkgdir" install
+  install -Dm644 config/libelf.pc "$pkgdir/usr/lib/pkgconfig/libelf.pc"
+  rm -f "$pkgdir/usr/lib/libelf.a"
 }
