@@ -123,7 +123,13 @@ onlylinux/
 │       ├── less/PKGBUILD
 │       ├── libpipeline/PKGBUILD
 │       ├── man-pages/PKGBUILD
-│       └── gettext/PKGBUILD
+│       ├── gettext/PKGBUILD
+│       ├── gdbm/PKGBUILD
+│       ├── groff/PKGBUILD
+│       ├── texinfo/PKGBUILD
+│       ├── procps-ng/PKGBUILD
+│       ├── inetutils/PKGBUILD
+│       └── iproute2/PKGBUILD
 ├── scripts/
 │   ├── detect_lfs_release.py
 │   ├── import_lfs.py
@@ -153,7 +159,7 @@ Manual runs can select `latest` or a specific available stable release. They reb
 
 ## Current bootstrap package set
 
-The workflow builds forty packages inside an Arch Linux container:
+The workflow builds forty-six packages inside an Arch Linux container:
 
 - `filesystem`
 - `attr`
@@ -195,6 +201,12 @@ The workflow builds forty packages inside an Arch Linux container:
 - `libpipeline`
 - `man-pages`
 - `gettext`
+- `gdbm`
+- `groff`
+- `texinfo`
+- `procps-ng`
+- `inetutils`
+- `iproute2`
 
 The workflow creates an `only-core` ALPM repository database and uploads a versioned GitHub Actions artifact.
 
