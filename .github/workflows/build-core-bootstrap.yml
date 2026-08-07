@@ -153,6 +153,12 @@ jobs:
               "procps-ng": "procps-ng",
               "inetutils": "inetutils",
               "iproute2": "iproute2",
+              "expat": "expat",
+              "pcre2": "pcre2",
+              "libtool": "libtool",
+              "autoconf": "autoconf",
+              "automake": "automake",
+              "elfutils": "elfutils",
           }
 
           for package_name, lfs_name in packages.items():
@@ -218,7 +224,7 @@ jobs:
             -exec cp -v {} output/packages/ \;
 
           package_count="$(find output/packages -type f -name '*.pkg.tar.zst' | wc -l)"
-          test "$package_count" -eq 46
+          test "$package_count" -eq 52
           echo "Collected $package_count bootstrap packages"
 
       - name: Create only-core repository database
