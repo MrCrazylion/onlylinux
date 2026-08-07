@@ -159,6 +159,9 @@ jobs:
               "autoconf": "autoconf",
               "automake": "automake",
               "elfutils": "elfutils",
+              "linux-api-headers": "linux",
+              "tzdata": "tzdata",
+              "shadow": "shadow",
           }
 
           for package_name, lfs_name in packages.items():
@@ -224,7 +227,7 @@ jobs:
             -exec cp -v {} output/packages/ \;
 
           package_count="$(find output/packages -type f -name '*.pkg.tar.zst' | wc -l)"
-          test "$package_count" -eq 52
+          test "$package_count" -eq 55
           echo "Collected $package_count bootstrap packages"
 
       - name: Create only-core repository database
