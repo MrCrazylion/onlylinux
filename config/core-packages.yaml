@@ -129,3 +129,52 @@
     repository: "only-core"
     build_order: 46
     enabled: true
+
+
+  expat:
+    version_source: "lfs"
+    lfs_source_name: "expat"
+    arch_pkgbase: "expat"
+    repository: "only-core"
+    build_order: 47
+    enabled: true
+
+  pcre2:
+    version_source: "lfs"
+    lfs_source_name: "pcre2"
+    arch_pkgbase: "pcre2"
+    repository: "only-core"
+    build_order: 48
+    enabled: true
+
+  libtool:
+    version_source: "lfs"
+    lfs_source_name: "libtool"
+    arch_pkgbase: "libtool"
+    repository: "only-core"
+    build_order: 49
+    enabled: true
+
+  autoconf:
+    version_source: "lfs"
+    lfs_source_name: "autoconf"
+    arch_pkgbase: "autoconf"
+    repository: "only-core"
+    build_order: 50
+    enabled: true
+
+  automake:
+    version_source: "lfs"
+    lfs_source_name: "automake"
+    arch_pkgbase: "automake"
+    repository: "only-core"
+    build_order: 51
+    enabled: true
+
+  elfutils:
+    version_source: "lfs"
+    lfs_source_name: "elfutils"
+    arch_pkgbase: "elfutils"
+    repository: "only-core"
+    build_order: 52
+    enabled: true
