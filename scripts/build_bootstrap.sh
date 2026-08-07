@@ -49,6 +49,12 @@ packages=(
   procps-ng
   inetutils
   iproute2
+  expat
+  pcre2
+  libtool
+  autoconf
+  automake
+  elfutils
 )
 
 source_cache="$(find /workspace/.cache/lfs/sources \
