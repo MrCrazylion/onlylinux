@@ -1,0 +1,27 @@
+pkgname=pcre2
+pkgver=10.47
+pkgrel=1
+pkgdesc="Perl-compatible regular expression library"
+arch=('x86_64')
+url="https://pcre2project.github.io/pcre2/"
+license=('BSD-3-Clause')
+depends=('glibc')
+options=('!debug')
+source=("https://github.com/PCRE2Project/pcre2/releases/download/pcre2-${pkgver}/pcre2-${pkgver}.tar.bz2")
+md5sums=('aded5840ab5a7d772dd4e16fc294b665')
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  ./configure     --prefix=/usr     --disable-static     --enable-pcre2-16     --enable-pcre2-32     --enable-jit     --enable-unicode
+  make
+}
+
+check() {
+  cd "${pkgname}-${pkgver}"
+  make check
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+  make DESTDIR="$pkgdir" install
+}
