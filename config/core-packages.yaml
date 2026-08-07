@@ -203,3 +203,52 @@
     repository: "only-core"
     build_order: 55
     enabled: true
+
+
+  openssl:
+    version_source: "lfs"
+    lfs_source_name: "openssl"
+    arch_pkgbase: "openssl"
+    repository: "only-core"
+    build_order: 56
+    enabled: true
+
+  perl:
+    version_source: "lfs"
+    lfs_source_name: "perl"
+    arch_pkgbase: "perl"
+    repository: "only-core"
+    build_order: 57
+    enabled: true
+
+  perl-xml-parser:
+    version_source: "lfs"
+    lfs_source_name: "XML-Parser"
+    arch_pkgbase: "perl-xml-parser"
+    repository: "only-core"
+    build_order: 58
+    enabled: true
+
+  intltool:
+    version_source: "lfs"
+    lfs_source_name: "intltool"
+    arch_pkgbase: "intltool"
+    repository: "only-core"
+    build_order: 59
+    enabled: true
+
+  sqlite:
+    version_source: "lfs"
+    lfs_source_name: "sqlite"
+    arch_pkgbase: "sqlite"
+    repository: "only-core"
+    build_order: 60
+    enabled: true
+
+  ninja:
+    version_source: "lfs"
+    lfs_source_name: "ninja"
+    arch_pkgbase: "ninja"
+    repository: "only-core"
+    build_order: 61
+    enabled: true
