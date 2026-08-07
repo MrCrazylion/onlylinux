@@ -58,6 +58,12 @@ packages=(
   linux-api-headers
   tzdata
   shadow
+  openssl
+  perl
+  perl-xml-parser
+  intltool
+  sqlite
+  ninja
 )
 
 source_cache="$(find /workspace/.cache/lfs/sources \
