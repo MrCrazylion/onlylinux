@@ -8,7 +8,7 @@ license=('Apache-2.0')
 depends=('python')
 options=('!debug')
 source=("ninja-${pkgver}.tar.gz::https://github.com/ninja-build/ninja/archive/v${pkgver}.tar.gz")
-md5sums=('8051eef7239b2f187791f2ab0034d6b7')
+md5sums=('76c00637fde44909cd7d56f8d73f2042')
 
 build() {
   cd "${pkgname}-${pkgver}"
