@@ -1,0 +1,15 @@
+pkgname=iana-etc
+pkgver=20260202
+pkgrel=1
+pkgdesc="IANA protocol and service name data"
+arch=('any')
+url="https://github.com/Mic92/iana-etc"
+license=('BSD-3-Clause')
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/Mic92/iana-etc/archive/refs/tags/${pkgver}.tar.gz")
+md5sums=('fe91258a0760912f61f1d6b200a1d885')
+
+package() {
+  cd "${pkgname}-${pkgver}"
+  install -Dm644 services "${pkgdir}/etc/services"
+  install -Dm644 protocols "${pkgdir}/etc/protocols"
+}
