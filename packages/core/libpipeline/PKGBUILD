@@ -1,0 +1,22 @@
+pkgname=libpipeline
+pkgver=1.5.8
+pkgrel=1
+pkgdesc="Library for manipulating pipelines of subprocesses"
+arch=('x86_64')
+url="https://libpipeline.nongnu.org/"
+license=('GPL-3.0-or-later')
+depends=('glibc')
+options=('!debug')
+source=("https://download.savannah.gnu.org/releases/libpipeline/libpipeline-${pkgver}.tar.gz")
+md5sums=('17ac6969b2015386bcb5d278a08a40b5')
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  ./configure --prefix=/usr
+  make
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+  make DESTDIR="$pkgdir" install
+}
