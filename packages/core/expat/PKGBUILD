@@ -1,0 +1,27 @@
+pkgname=expat
+pkgver=2.7.4
+pkgrel=1
+pkgdesc="XML parser library"
+arch=('x86_64')
+url="https://libexpat.github.io/"
+license=('MIT')
+depends=('glibc')
+options=('!debug')
+source=("https://github.com/libexpat/libexpat/releases/download/R_${pkgver//./_}/expat-${pkgver}.tar.xz")
+md5sums=('5d3d1e1c829f8fb6f42b8e3e2371afa3')
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  ./configure --prefix=/usr --disable-static
+  make
+}
+
+check() {
+  cd "${pkgname}-${pkgver}"
+  make check
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+  make DESTDIR="$pkgdir" install
+}
