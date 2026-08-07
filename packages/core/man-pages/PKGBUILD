@@ -1,0 +1,15 @@
+pkgname=man-pages
+pkgver=6.17
+pkgrel=1
+pkgdesc="Linux man pages"
+arch=('any')
+url="https://www.kernel.org/doc/man-pages/"
+license=('GPL-2.0-or-later' 'LGPL-2.0-or-later' 'BSD-2-Clause' 'BSD-3-Clause')
+source=("https://www.kernel.org/pub/linux/docs/man-pages/man-pages-${pkgver}.tar.xz")
+md5sums=('4327b009d63a6e0fc27df3e4c9e7369b')
+
+package() {
+  cd "${pkgname}-${pkgver}"
+  rm -f man3/crypt*
+  make -R GIT=false prefix=/usr DESTDIR="$pkgdir" install
+}
