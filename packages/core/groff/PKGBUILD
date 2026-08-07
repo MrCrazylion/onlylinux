@@ -1,0 +1,27 @@
+pkgname=groff
+pkgver=1.23.0
+pkgrel=1
+pkgdesc="GNU troff text-formatting system"
+arch=('x86_64')
+url="https://www.gnu.org/software/groff/"
+license=('GPL-3.0-or-later')
+depends=('glibc' 'gcc-libs')
+options=('!debug')
+source=("https://ftp.gnu.org/gnu/groff/groff-${pkgver}.tar.gz")
+md5sums=('5d9301ed9d209c4a88c8d3a6fd08b9ac')
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  ./configure --prefix=/usr
+  make
+}
+
+check() {
+  cd "${pkgname}-${pkgver}"
+  make check
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+  make DESTDIR="$pkgdir" install
+}
