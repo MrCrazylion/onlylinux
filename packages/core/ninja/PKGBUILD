@@ -1,0 +1,6 @@
+pkgname=ninja
+pkgver=1.13.2
+pkgrel=1
+arch=('x86_64')
+source=()
+md5sums=('8051eef7239b2f187791f2ab0034d6b7')
