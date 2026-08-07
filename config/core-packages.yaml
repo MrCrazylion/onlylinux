@@ -178,3 +178,28 @@
     repository: "only-core"
     build_order: 52
     enabled: true
+
+
+  linux-api-headers:
+    version_source: "lfs"
+    lfs_source_name: "linux"
+    arch_pkgbase: "linux-api-headers"
+    repository: "only-core"
+    build_order: 53
+    enabled: true
+
+  tzdata:
+    version_source: "lfs"
+    lfs_source_name: "tzdata"
+    arch_pkgbase: "tzdata"
+    repository: "only-core"
+    build_order: 54
+    enabled: true
+
+  shadow:
+    version_source: "lfs"
+    lfs_source_name: "shadow"
+    arch_pkgbase: "shadow"
+    repository: "only-core"
+    build_order: 55
+    enabled: true
