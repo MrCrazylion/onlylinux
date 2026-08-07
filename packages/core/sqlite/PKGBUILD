@@ -8,7 +8,7 @@ license=('LicenseRef-Public-Domain')
 depends=('glibc' 'readline' 'zlib')
 options=('!debug')
 source=("https://www.sqlite.org/2026/sqlite-autoconf-${pkgver}.tar.gz")
-md5sums=('005159be74cf46222d6399fbc0fb0ada')
+md5sums=('49600a5739d382c648b1a317e4b57446')
 
 build() {
   cd "sqlite-autoconf-${pkgver}"
