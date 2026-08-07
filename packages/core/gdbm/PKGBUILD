@@ -1,0 +1,27 @@
+pkgname=gdbm
+pkgver=1.26
+pkgrel=1
+pkgdesc="GNU database library"
+arch=('x86_64')
+url="https://www.gnu.org.ua/software/gdbm/"
+license=('GPL-3.0-or-later')
+depends=('glibc' 'readline')
+options=('!debug')
+source=("https://ftp.gnu.org/gnu/gdbm/gdbm-${pkgver}.tar.gz")
+md5sums=('aaa600665bc89e2febb3c7bd90679115')
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  ./configure --prefix=/usr --disable-static
+  make
+}
+
+check() {
+  cd "${pkgname}-${pkgver}"
+  make check
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+  make DESTDIR="$pkgdir" install
+}
