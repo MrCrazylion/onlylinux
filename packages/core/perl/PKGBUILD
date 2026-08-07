@@ -2,5 +2,7 @@ pkgname=perl
 pkgver=5.42.0
 pkgrel=1
 arch=('x86_64')
-source=()
+source=("https://www.cpan.org/src/5.0/perl-5.42.0.tar.xz")
 md5sums=('7a6950a9f12d01eb96a9d2ed2f4e0072')
+build(){ cd perl-5.42.0; sh Configure -des -D prefix=/usr -D vendorprefix=/usr -D useshrplib; make; }
+package(){ cd perl-5.42.0; make DESTDIR="$pkgdir" install; }
