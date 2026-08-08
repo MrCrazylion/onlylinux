@@ -1,0 +1,21 @@
+pkgname=packaging
+pkgver=26.0
+pkgrel=1
+pkgdesc="Core utilities for Python packages"
+arch=('any')
+url="https://packaging.pypa.io/"
+license=('Apache-2.0' 'BSD-2-Clause')
+depends=('python')
+makedepends=('python-pip' 'flit-core')
+source=("https://pypi.org/packages/source/p/packaging/packaging-$pkgver.tar.gz")
+md5sums=('2cbdbb5754f038736c3c361826c6872a')
+
+build() {
+  cd "$pkgname-$pkgver"
+  python -m pip wheel -w dist --no-cache-dir --no-build-isolation --no-deps .
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  python -m pip install --root="$pkgdir" --no-index --find-links=dist --no-deps packaging
+}
