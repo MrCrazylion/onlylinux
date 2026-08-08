@@ -1,0 +1,30 @@
+pkgname=linux
+pkgver=6.18.10
+pkgrel=1
+pkgdesc="Linux kernel"
+arch=('x86_64')
+url="https://www.kernel.org/"
+license=('GPL-2.0-only')
+makedepends=('bc' 'elfutils' 'kmod' 'openssl' 'pahole' 'perl')
+source=("https://www.kernel.org/pub/linux/kernel/v6.x/linux-$pkgver.tar.xz")
+md5sums=('660e706a43f634b1fcd911f8839d2f61')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+  make mrproper
+}
+
+build() {
+  cd "$pkgname-$pkgver"
+  make defconfig
+  scripts/config --disable WERROR
+  make
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  install -Dm644 arch/x86/boot/bzImage "$pkgdir/boot/vmlinuz-$pkgver"
+  install -Dm644 System.map "$pkgdir/boot/System.map-$pkgver"
+  install -Dm644 .config "$pkgdir/boot/config-$pkgver"
+  make INSTALL_MOD_PATH="$pkgdir/usr" modules_install
+}
