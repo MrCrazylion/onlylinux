@@ -1,0 +1,21 @@
+pkgname=setuptools
+pkgver=82.0.0
+pkgrel=1
+pkgdesc="Python package build system"
+arch=('any')
+url="https://setuptools.pypa.io/"
+license=('MIT')
+depends=('python')
+makedepends=('python-pip')
+source=("https://pypi.org/packages/source/s/setuptools/setuptools-$pkgver.tar.gz")
+md5sums=('6e65b88d2466b35e86e5187b99502b1c')
+
+build() {
+  cd "$pkgname-$pkgver"
+  python -m pip wheel -w dist --no-cache-dir --no-build-isolation --no-deps .
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  python -m pip install --root="$pkgdir" --no-index --find-links=dist --no-deps setuptools
+}
