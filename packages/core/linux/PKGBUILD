@@ -17,7 +17,22 @@ prepare() {
 build() {
   cd "$pkgname-$pkgver"
   make defconfig
-  scripts/config --disable WERROR
+  scripts/config --disable WERROR \
+    --enable PSI --disable PSI_DEFAULT_DISABLED \
+    --enable CGROUPS --enable MEMCG --enable CGROUP_SCHED --disable RT_GROUP_SCHED \
+    --enable RELOCATABLE --enable RANDOMIZE_BASE \
+    --enable STACKPROTECTOR --enable STACKPROTECTOR_STRONG \
+    --enable NET --enable INET --enable IPV6 \
+    --disable UEVENT_HELPER --enable DEVTMPFS --enable DEVTMPFS_MOUNT \
+    --module FW_LOADER --disable FW_LOADER_USER_HELPER \
+    --enable DMIID --enable SYSFB_SIMPLEFB \
+    --enable DRM --enable DRM_PANIC --enable DRM_FBDEV_EMULATION \
+    --enable DRM_SIMPLEDRM --enable FRAMEBUFFER_CONSOLE \
+    --enable INOTIFY_USER --enable TMPFS --enable TMPFS_POSIX_ACL \
+    --enable X86_X2APIC --enable PCI --enable PCI_MSI \
+    --enable IOMMU_SUPPORT --enable IRQ_REMAP
+  scripts/config --set-str DRM_PANIC_SCREEN kmsg
+  make olddefconfig
   make
 }
 
@@ -27,4 +42,14 @@ package() {
   install -Dm644 System.map "$pkgdir/boot/System.map-$pkgver"
   install -Dm644 .config "$pkgdir/boot/config-$pkgver"
   make INSTALL_MOD_PATH="$pkgdir/usr" modules_install
+  mkdir -p "$pkgdir/usr/share/doc"
+  cp -a Documentation "$pkgdir/usr/share/doc/linux-$pkgver"
+  install -Dm644 /dev/stdin "$pkgdir/etc/modprobe.d/usb.conf" <<'EOF'
+# Begin /etc/modprobe.d/usb.conf
+
+install ohci_hcd /sbin/modprobe ehci_hcd ; /sbin/modprobe -i ohci_hcd ; true
+install uhci_hcd /sbin/modprobe ehci_hcd ; /sbin/modprobe -i uhci_hcd ; true
+
+# End /etc/modprobe.d/usb.conf
+EOF
 }
