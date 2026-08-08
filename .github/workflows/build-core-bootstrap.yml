@@ -173,6 +173,9 @@ jobs:
               "expect": "expect",
               "dejagnu": "dejagnu",
               "kbd": "kbd",
+              "kmod": "kmod",
+              "util-linux": "util-linux",
+              "e2fsprogs": "e2fsprogs",
 
           }
 
@@ -239,7 +242,7 @@ jobs:
             -exec cp -v {} output/packages/ \;
 
           package_count="$(find output/packages -type f -name '*.pkg.tar.zst' | wc -l)"
-          test "$package_count" -eq 66
+          test "$package_count" -eq 69
           echo "Collected $package_count bootstrap packages"
 
       - name: Create only-core repository database
