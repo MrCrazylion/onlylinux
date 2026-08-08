@@ -9,5 +9,6 @@ source=("https://data.iana.org/time-zones/releases/tzdata${pkgver}.tar.gz")
 md5sums=('7250c862872c33104b73e7d0bd3cb25f')
 
 package() {
+  cd "tzdata${pkgver}"
   make DESTDIR="$pkgdir" install
 }
