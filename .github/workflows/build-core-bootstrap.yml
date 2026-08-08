@@ -27,7 +27,7 @@ jobs:
   build-core-bootstrap:
     name: Build only-core bootstrap repository
     runs-on: ubuntu-24.04
-    timeout-minutes: 120
+    timeout-minutes: 360
 
     steps:
       - name: Check out repository
@@ -176,6 +176,22 @@ jobs:
               "kmod": "kmod",
               "util-linux": "util-linux",
               "e2fsprogs": "e2fsprogs",
+              "glibc": "glibc",
+              "gcc": "gcc",
+              "python": "Python",
+              "flit-core": "flit_core",
+              "packaging": "packaging",
+              "wheel": "wheel",
+              "setuptools": "setuptools",
+              "meson": "meson",
+              "grub": "grub",
+              "vim": "vim",
+              "markupsafe": "markupsafe",
+              "jinja2": "jinja2",
+              "systemd": "systemd",
+              "dbus": "dbus",
+              "man-db": "man-db",
+              "linux": "linux",
 
           }
 
@@ -242,7 +258,7 @@ jobs:
             -exec cp -v {} output/packages/ \;
 
           package_count="$(find output/packages -type f -name '*.pkg.tar.zst' | wc -l)"
-          test "$package_count" -eq 69
+          test "$package_count" -eq 85
           echo "Collected $package_count bootstrap packages"
 
       - name: Create only-core repository database
