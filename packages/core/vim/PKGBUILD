@@ -1,0 +1,27 @@
+pkgname=vim
+pkgver=9.2.0078
+pkgrel=1
+pkgdesc="Vi Improved text editor"
+arch=('x86_64')
+url="https://www.vim.org/"
+license=('Vim')
+depends=('glibc' 'ncurses')
+source=("vim-$pkgver.tar.gz::https://github.com/vim/vim/archive/v$pkgver.tar.gz")
+md5sums=('592819d17a5f76d39ddba5651912afe0')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+  echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
+}
+
+build() {
+  cd "$pkgname-$pkgver"
+  ./configure --prefix=/usr
+  make
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  make DESTDIR="$pkgdir" install
+  ln -sf vim "$pkgdir/usr/bin/vi"
+}
