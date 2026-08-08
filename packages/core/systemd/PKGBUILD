@@ -7,7 +7,7 @@ url="https://systemd.io/"
 license=('LGPL-2.1-or-later')
 depends=('acl' 'libcap' 'openssl' 'kmod' 'util-linux' 'xz' 'zstd' 'lz4')
 makedepends=('meson' 'ninja' 'python' 'gperf' 'libxcrypt')
-source=("https://github.com/systemd/systemd/archive/v$pkgver/systemd-$pkgver.tar.gz"
+source=("systemd-$pkgver.tar.gz::https://github.com/systemd/systemd/archive/v$pkgver.tar.gz"
         "https://anduin.linuxfromscratch.org/LFS/systemd-man-pages-$pkgver.tar.xz")
 md5sums=('623f73826e7702ac08c57febb9d20431'
          'de40a27b137ef707777811818995363c')
