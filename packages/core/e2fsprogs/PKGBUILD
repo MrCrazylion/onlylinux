@@ -1,0 +1,12 @@
+pkgname=e2fsprogs
+pkgver=1.47.3
+pkgrel=1
+pkgdesc="Ext2/3/4 filesystem utilities"
+arch=('x86_64')
+url="https://e2fsprogs.sourceforge.net/"
+license=('GPL-2.0-or-later')
+depends=('glibc' 'util-linux')
+source=("https://downloads.sourceforge.net/project/e2fsprogs/e2fsprogs/v${pkgver}/e2fsprogs-${pkgver}.tar.gz")
+md5sums=('113d7a7ee0710d2a670a44692a35fd2e')
+build() { cd "${pkgname}-${pkgver}"; mkdir -p build; cd build; ../configure --prefix=/usr --with-root-prefix="" --disable-tdb --disable-libarchive; make; }
+package() { cd "${pkgname}-${pkgver}/build"; make DESTDIR="$pkgdir" install; }
