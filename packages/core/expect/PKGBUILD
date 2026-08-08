@@ -1,0 +1,12 @@
+pkgname=expect
+pkgver=5.45.4
+pkgrel=1
+pkgdesc="Tool for automating interactive applications"
+arch=('x86_64')
+url="https://core.tcl-lang.org/expect/"
+license=('Public-Domain')
+depends=('tcl')
+source=("expect${pkgver}.tar.gz::https://prdownloads.sourceforge.net/expect/expect${pkgver}.tar.gz")
+md5sums=('00fce8de158422f5ccd2666512329bd2')
+build() { cd "expect${pkgver}"; ./configure --prefix=/usr --with-tcl=/usr/lib --with-tclinclude=/usr/include; make; }
+package() { cd "expect${pkgver}"; make DESTDIR="$pkgdir" install; }
