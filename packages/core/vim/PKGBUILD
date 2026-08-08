@@ -24,4 +24,11 @@ package() {
   cd "$pkgname-$pkgver"
   make DESTDIR="$pkgdir" install
   ln -sf vim "$pkgdir/usr/bin/vi"
+  for manpage in "$pkgdir"/usr/share/man/{,*/}man1/vim.1; do
+    [[ -e "$manpage" ]] || continue
+    ln -sf vim.1 "$(dirname "$manpage")/vi.1"
+  done
+  mkdir -p "$pkgdir/usr/share/doc"
+  vim_runtime=$(printf "%s" "$pkgver" | cut -d. -f1,2 | tr -d .)
+  ln -sf "../vim/vim${vim_runtime}/doc" "$pkgdir/usr/share/doc/vim-$pkgver"
 }
