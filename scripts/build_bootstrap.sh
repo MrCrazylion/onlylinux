@@ -64,6 +64,11 @@ packages=(
   intltool
   sqlite
   ninja
+  lz4
+  tcl
+  expect
+  dejagnu
+  kbd
 )
 
 source_cache="$(find /workspace/.cache/lfs/sources \
