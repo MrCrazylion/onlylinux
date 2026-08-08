@@ -94,8 +94,16 @@ def main() -> int:
             continue
 
         filename = Path(urlparse(url).path).name
-        parsed = split_name_and_version(filename)
-        if parsed is None:
+        tcl_match = re.match(
+            r"^tcl(?P<version>[0-9][A-Za-z0-9._+-]*)-src\.tar\.gz$",
+            filename,
+        )
+        if tcl_match is not None:
+            source_name = "tcl"
+            version = tcl_match.group("version")
+        else:
+            parsed = split_name_and_version(filename)
+            if parsed is None:
             special_match = re.match(
                 r"^(?P<name>tcl|expect)(?P<version>[0-9][A-Za-z0-9._+-]*)(?:-src)?\.tar\.gz$",
                 filename,
@@ -113,8 +121,8 @@ def main() -> int:
                     continue
                 source_name = "tzdata"
                 version = tzdata_match.group("version")
-        else:
-            source_name, version = parsed
+            else:
+                source_name, version = parsed
         packages.append(
             {
                 "source_name": source_name,
