@@ -69,6 +69,9 @@ packages=(
   expect
   dejagnu
   kbd
+  kmod
+  util-linux
+  e2fsprogs
 )
 
 source_cache="$(find /workspace/.cache/lfs/sources \
