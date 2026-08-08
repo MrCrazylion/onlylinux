@@ -144,7 +144,31 @@ onlylinux/
 │       ├── perl-xml-parser/PKGBUILD
 │       ├── intltool/PKGBUILD
 │       ├── sqlite/PKGBUILD
-│       └── ninja/PKGBUILD
+│       ├── ninja/PKGBUILD
+│       ├── lz4/PKGBUILD
+│       ├── tcl/PKGBUILD
+│       ├── expect/PKGBUILD
+│       ├── dejagnu/PKGBUILD
+│       ├── kbd/PKGBUILD
+│       ├── kmod/PKGBUILD
+│       ├── util-linux/PKGBUILD
+│       ├── e2fsprogs/PKGBUILD
+│       ├── glibc/PKGBUILD
+│       ├── gcc/PKGBUILD
+│       ├── python/PKGBUILD
+│       ├── flit-core/PKGBUILD
+│       ├── packaging/PKGBUILD
+│       ├── wheel/PKGBUILD
+│       ├── setuptools/PKGBUILD
+│       ├── meson/PKGBUILD
+│       ├── grub/PKGBUILD
+│       ├── vim/PKGBUILD
+│       ├── markupsafe/PKGBUILD
+│       ├── jinja2/PKGBUILD
+│       ├── systemd/PKGBUILD
+│       ├── dbus/PKGBUILD
+│       ├── man-db/PKGBUILD
+│       └── linux/PKGBUILD
 ├── scripts/
 │   ├── detect_lfs_release.py
 │   ├── import_lfs.py
@@ -174,7 +198,7 @@ Manual runs can select `latest` or a specific available stable release. They reb
 
 ## Current bootstrap package set
 
-The workflow builds sixty-nine packages inside an Arch Linux container:
+The workflow builds eighty-five packages inside an Arch Linux container:
 
 - `filesystem`
 - `attr`
@@ -245,6 +269,22 @@ The workflow builds sixty-nine packages inside an Arch Linux container:
 - `kmod`
 - `util-linux`
 - `e2fsprogs`
+- `glibc`
+- `gcc`
+- `python`
+- `flit-core`
+- `packaging`
+- `wheel`
+- `setuptools`
+- `meson`
+- `grub`
+- `vim`
+- `markupsafe`
+- `jinja2`
+- `systemd`
+- `dbus`
+- `man-db`
+- `linux`
 
 The workflow creates an `only-core` ALPM repository database and uploads a versioned GitHub Actions artifact.
 
