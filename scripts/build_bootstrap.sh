@@ -95,9 +95,23 @@ fi
 printf '%s\n' 'builder ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/builder
 chmod 440 /etc/sudoers.d/builder
 chown -R builder:builder /workspace/.cache/lfs/sources
-printf '\nSRCDEST=%q\n' "${source_cache}" >> /etc/makepkg.conf
+makepkg_config=/workspace/.cache/makepkg-onlylinux.conf
+cp /etc/makepkg.conf "${makepkg_config}"
+cat >> "${makepkg_config}" <<EOF
+
+# Only Linux bootstrap policy: do not inherit Arch compiler or linker flags.
+SRCDEST="${source_cache}"
+CFLAGS=""
+CXXFLAGS=""
+CPPFLAGS=""
+LDFLAGS=""
+MAKEFLAGS=""
+OPTIONS=(!strip !docs libtool staticlibs emptydirs zipman purge !debug !lto)
+EOF
+chown builder:builder "${makepkg_config}"
 
 echo "Using verified LFS source cache: ${source_cache}"
+echo "Using neutral Only Linux compiler and linker flags"
 
 for package_name in "${packages[@]}"; do
   package_dir="/workspace/packages/core/${package_name}"
@@ -106,7 +120,7 @@ for package_name in "${packages[@]}"; do
   echo "Verifying sources for ${package_name}"
   sudo -u builder bash -euxo pipefail -c "
     cd '${package_dir}'
-    makepkg --verifysource --noconfirm
+    makepkg --config '${makepkg_config}' --verifysource --noconfirm
   "
 done
 
@@ -120,7 +134,7 @@ for package_name in "${packages[@]}"; do
   echo "Building ${package_name}"
   sudo -u builder bash -euxo pipefail -c "
     cd '${package_dir}'
-    makepkg --syncdeps --cleanbuild --noconfirm --needed ${check_flag}
+    makepkg --config '${makepkg_config}' --syncdeps --cleanbuild --noconfirm --needed ${check_flag}
   "
 
   if [[ "${package_name}" == "gawk" ]]; then
