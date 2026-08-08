@@ -316,3 +316,131 @@
     repository: "only-core"
     build_order: 69
     enabled: true
+
+  glibc:
+    version_source: "lfs"
+    lfs_source_name: "glibc"
+    arch_pkgbase: "glibc"
+    repository: "only-core"
+    build_order: 70
+    enabled: true
+
+  gcc:
+    version_source: "lfs"
+    lfs_source_name: "gcc"
+    arch_pkgbase: "gcc"
+    repository: "only-core"
+    build_order: 71
+    enabled: true
+
+  python:
+    version_source: "lfs"
+    lfs_source_name: "Python"
+    arch_pkgbase: "python"
+    repository: "only-core"
+    build_order: 72
+    enabled: true
+
+  flit-core:
+    version_source: "lfs"
+    lfs_source_name: "flit_core"
+    arch_pkgbase: "flit-core"
+    repository: "only-core"
+    build_order: 73
+    enabled: true
+
+  packaging:
+    version_source: "lfs"
+    lfs_source_name: "packaging"
+    arch_pkgbase: "packaging"
+    repository: "only-core"
+    build_order: 74
+    enabled: true
+
+  wheel:
+    version_source: "lfs"
+    lfs_source_name: "wheel"
+    arch_pkgbase: "wheel"
+    repository: "only-core"
+    build_order: 75
+    enabled: true
+
+  setuptools:
+    version_source: "lfs"
+    lfs_source_name: "setuptools"
+    arch_pkgbase: "setuptools"
+    repository: "only-core"
+    build_order: 76
+    enabled: true
+
+  meson:
+    version_source: "lfs"
+    lfs_source_name: "meson"
+    arch_pkgbase: "meson"
+    repository: "only-core"
+    build_order: 77
+    enabled: true
+
+  grub:
+    version_source: "lfs"
+    lfs_source_name: "grub"
+    arch_pkgbase: "grub"
+    repository: "only-core"
+    build_order: 78
+    enabled: true
+
+  vim:
+    version_source: "lfs"
+    lfs_source_name: "vim"
+    arch_pkgbase: "vim"
+    repository: "only-core"
+    build_order: 79
+    enabled: true
+
+  markupsafe:
+    version_source: "lfs"
+    lfs_source_name: "markupsafe"
+    arch_pkgbase: "markupsafe"
+    repository: "only-core"
+    build_order: 80
+    enabled: true
+
+  jinja2:
+    version_source: "lfs"
+    lfs_source_name: "jinja2"
+    arch_pkgbase: "jinja2"
+    repository: "only-core"
+    build_order: 81
+    enabled: true
+
+  systemd:
+    version_source: "lfs"
+    lfs_source_name: "systemd"
+    arch_pkgbase: "systemd"
+    repository: "only-core"
+    build_order: 82
+    enabled: true
+
+  dbus:
+    version_source: "lfs"
+    lfs_source_name: "dbus"
+    arch_pkgbase: "dbus"
+    repository: "only-core"
+    build_order: 83
+    enabled: true
+
+  man-db:
+    version_source: "lfs"
+    lfs_source_name: "man-db"
+    arch_pkgbase: "man-db"
+    repository: "only-core"
+    build_order: 84
+    enabled: true
+
+  linux:
+    version_source: "lfs"
+    lfs_source_name: "linux"
+    arch_pkgbase: "linux"
+    repository: "only-core"
+    build_order: 85
+    enabled: true
