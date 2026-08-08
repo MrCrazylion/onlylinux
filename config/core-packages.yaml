@@ -252,3 +252,43 @@
     repository: "only-core"
     build_order: 61
     enabled: true
+
+  lz4:
+    version_source: "lfs"
+    lfs_source_name: "lz4"
+    arch_pkgbase: "lz4"
+    repository: "only-core"
+    build_order: 62
+    enabled: true
+
+  tcl:
+    version_source: "lfs"
+    lfs_source_name: "tcl"
+    arch_pkgbase: "tcl"
+    repository: "only-core"
+    build_order: 63
+    enabled: true
+
+  expect:
+    version_source: "lfs"
+    lfs_source_name: "expect"
+    arch_pkgbase: "expect"
+    repository: "only-core"
+    build_order: 64
+    enabled: true
+
+  dejagnu:
+    version_source: "lfs"
+    lfs_source_name: "dejagnu"
+    arch_pkgbase: "dejagnu"
+    repository: "only-core"
+    build_order: 65
+    enabled: true
+
+  kbd:
+    version_source: "lfs"
+    lfs_source_name: "kbd"
+    arch_pkgbase: "kbd"
+    repository: "only-core"
+    build_order: 66
+    enabled: true
