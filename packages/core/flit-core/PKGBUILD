@@ -7,7 +7,7 @@ url="https://flit.pypa.io/"
 license=('BSD-3-Clause')
 depends=('python')
 makedepends=('python-pip')
-source=("https://pypi.org/packages/source/f/flit-core/flit_core-$pkgver.tar.gz")
+source=("https://pypi.org/packages/source/f/flit_core/flit_core-$pkgver.tar.gz")
 md5sums=('c538415c1f27bd69cbbbf3cdd5135d39')
 
 build() {
