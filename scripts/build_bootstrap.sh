@@ -3,90 +3,94 @@
 set -euo pipefail
 
 packages=(
+  # Only Linux bootstrap helpers; package order below follows LFS stable-systemd.
   filesystem
+  linux-api-headers
+  tzdata
+
+  man-pages
+  iana-etc
+  glibc
+  zlib
+  bzip2
+  xz
+  lz4
+  zstd
+  file
+  readline
+  pcre2
+  m4
+  bc
+  flex
+  tcl
+  expect
+  dejagnu
   pkgconf
   binutils
-  gperf
-  libffi
   gmp
   mpfr
   mpc
-  bison
-  flex
-  bc
   attr
   acl
   libcap
   libxcrypt
-  zlib
-  xz
-  zstd
-  bzip2
-  ncurses
-  readline
-  bash
-  m4
-  file
-  diffutils
-  coreutils
-  sed
-  grep
-  gawk
-  findutils
-  gzip
-  make
-  patch
-  tar
-  iana-etc
-  psmisc
-  less
-  libpipeline
-  man-pages
-  gettext
-  gdbm
-  groff
-  texinfo
-  procps-ng
-  inetutils
-  iproute2
-  expat
-  pcre2
-  libtool
-  autoconf
-  automake
-  elfutils
-  linux-api-headers
-  tzdata
   shadow
-  openssl
+  gcc
+  ncurses
+  sed
+  psmisc
+  gettext
+  bison
+  grep
+  bash
+  libtool
+  gdbm
+  gperf
+  expat
+  inetutils
+  less
   perl
   perl-xml-parser
   intltool
+  autoconf
+  automake
+  openssl
+  elfutils
+  libffi
   sqlite
-  ninja
-  lz4
-  tcl
-  expect
-  dejagnu
-  kbd
-  kmod
-  util-linux
-  e2fsprogs
-  glibc
-  gcc
   python
   flit-core
   packaging
   wheel
   setuptools
+  ninja
   meson
+  kmod
+  coreutils
+  diffutils
+  gawk
+  findutils
+  groff
   grub
+  gzip
+  iproute2
+  kbd
+  libpipeline
+  make
+  patch
+  tar
+  texinfo
   vim
   markupsafe
   jinja2
   systemd
   dbus
   man-db
+  procps-ng
+  util-linux
+  e2fsprogs
+
+  # Chapter 10: built after the basic system packages.
   linux
 )
 
