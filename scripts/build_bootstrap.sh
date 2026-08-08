@@ -72,6 +72,22 @@ packages=(
   kmod
   util-linux
   e2fsprogs
+  glibc
+  gcc
+  python
+  flit-core
+  packaging
+  wheel
+  setuptools
+  meson
+  grub
+  vim
+  markupsafe
+  jinja2
+  systemd
+  dbus
+  man-db
+  linux
 )
 
 source_cache="$(find /workspace/.cache/lfs/sources \
