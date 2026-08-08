@@ -103,26 +103,26 @@ def main() -> int:
             version = tcl_match.group("version")
         else:
             parsed = split_name_and_version(filename)
-            if parsed is None:
-            special_match = re.match(
-                r"^(?P<name>tcl|expect)(?P<version>[0-9][A-Za-z0-9._+-]*)(?:-src)?\.tar\.gz$",
-                filename,
-            )
-            if special_match is not None:
-                source_name = special_match.group("name")
-                version = special_match.group("version")
-            # IANA uses tzdata<version> rather than tzdata-<version>.
+            if parsed is not None:
+                source_name, version = parsed
             else:
-                tzdata_match = re.match(
-                    r"^tzdata(?P<version>[0-9][A-Za-z0-9._+-]*)\.tar\.gz$",
+                expect_match = re.match(
+                    r"^expect(?P<version>[0-9][A-Za-z0-9._+-]*)\.tar\.gz$",
                     filename,
                 )
-                if tzdata_match is None:
-                    continue
-                source_name = "tzdata"
-                version = tzdata_match.group("version")
-            else:
-                source_name, version = parsed
+                if expect_match is not None:
+                    source_name = "expect"
+                    version = expect_match.group("version")
+                else:
+                    tzdata_match = re.match(
+                        r"^tzdata(?P<version>[0-9][A-Za-z0-9._+-]*)\.tar\.gz$",
+                        filename,
+                    )
+                    if tzdata_match is None:
+                        continue
+                    source_name = "tzdata"
+                    version = tzdata_match.group("version")
+
         packages.append(
             {
                 "source_name": source_name,
