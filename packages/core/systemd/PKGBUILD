@@ -1,0 +1,52 @@
+pkgname=systemd
+pkgver=259.1
+pkgrel=1
+pkgdesc="System and service manager"
+arch=('x86_64')
+url="https://systemd.io/"
+license=('LGPL-2.1-or-later')
+depends=('acl' 'libcap' 'openssl' 'kmod' 'util-linux' 'xz' 'zstd' 'lz4')
+makedepends=('meson' 'ninja' 'python' 'gperf' 'libxcrypt')
+source=("https://github.com/systemd/systemd/archive/v$pkgver/systemd-$pkgver.tar.gz"
+        "https://anduin.linuxfromscratch.org/LFS/systemd-man-pages-$pkgver.tar.xz")
+md5sums=('623f73826e7702ac08c57febb9d20431'
+         'de40a27b137ef707777811818995363c')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+  sed -e 's/GROUP="render"/GROUP="video"/' \
+      -e 's/GROUP="sgx", //' \
+      -i rules.d/50-udev-default.rules.in
+}
+
+build() {
+  cd "$pkgname-$pkgver"
+  meson setup build \
+    --prefix=/usr \
+    --buildtype=release \
+    -D default-dnssec=no \
+    -D firstboot=false \
+    -D install-tests=false \
+    -D ldconfig=false \
+    -D sysusers=false \
+    -D rpmmacrosdir=no \
+    -D homed=disabled \
+    -D man=disabled \
+    -D mode=release \
+    -D pamconfdir=no \
+    -D dev-kvm-mode=0660 \
+    -D nobody-group=nogroup \
+    -D sysupdate=disabled \
+    -D ukify=disabled \
+    -D docdir=/usr/share/doc/systemd-$pkgver
+  ninja -C build
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  DESTDIR="$pkgdir" ninja -C build install
+  mkdir -p "$pkgdir/usr/share/man"
+  tar -xf "$srcdir/systemd-man-pages-$pkgver.tar.xz" \
+    --no-same-owner --strip-components=1 \
+    -C "$pkgdir/usr/share/man"
+}
