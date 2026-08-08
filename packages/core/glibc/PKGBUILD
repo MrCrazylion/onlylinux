@@ -1,0 +1,42 @@
+pkgname=glibc
+pkgver=2.43
+pkgrel=1
+pkgdesc="GNU C Library"
+arch=('x86_64')
+url="https://www.gnu.org/software/libc/"
+license=('GPL-2.0-or-later' 'LGPL-2.1-or-later')
+depends=('linux-api-headers')
+makedepends=('gcc')
+source=("https://ftp.gnu.org/gnu/glibc/glibc-$pkgver.tar.xz"
+        "https://www.linuxfromscratch.org/patches/lfs/13.0/glibc-fhs-1.patch")
+md5sums=('7ec2588300b299215a65aec7e6afa04f'
+         '9a5997c3452909b1769918c759eff8a2')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+  patch -Np1 -i "../glibc-fhs-1.patch"
+}
+
+build() {
+  cd "$pkgname-$pkgver"
+  mkdir -p build
+  cd build
+  echo "rootsbindir=/usr/sbin" > configparms
+  ../configure \
+    --prefix=/usr \
+    --disable-werror \
+    --disable-nscd \
+    libc_cv_slibdir=/usr/lib \
+    --enable-stack-protector=strong \
+    --enable-kernel=5.4
+  make
+}
+
+package() {
+  cd "$pkgname-$pkgver/build"
+  mkdir -p "$pkgdir/etc"
+  touch "$pkgdir/etc/ld.so.conf"
+  sed '/test-installation/s@$(PERL)@echo not running@' -i ../Makefile
+  make DESTDIR="$pkgdir" install
+  sed '/RTLDLIST=/s@/usr@@g' -i "$pkgdir/usr/bin/ldd"
+}
