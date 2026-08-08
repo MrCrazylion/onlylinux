@@ -22,4 +22,6 @@ build() {
 package() {
   cd "$pkgname-$pkgver"
   DESTDIR="$pkgdir" ninja -C build install
+  mkdir -p "$pkgdir/var/lib/dbus"
+  ln -sf /etc/machine-id "$pkgdir/var/lib/dbus/machine-id"
 }
