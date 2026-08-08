@@ -1,0 +1,30 @@
+pkgname=man-db
+pkgver=2.13.1
+pkgrel=1
+pkgdesc="Utilities for reading manual pages"
+arch=('x86_64')
+url="https://www.nongnu.org/man-db/"
+license=('GPL-2.0-or-later')
+depends=('gdbm' 'libpipeline' 'zlib')
+makedepends=('pkgconf')
+source=("https://download.savannah.gnu.org/releases/man-db/man-db-$pkgver.tar.xz")
+md5sums=('b6335533cbeac3b24cd7be31fdee8c83')
+
+build() {
+  cd "$pkgname-$pkgver"
+  ./configure \
+    --prefix=/usr \
+    --docdir=/usr/share/doc/man-db-$pkgver \
+    --sysconfdir=/etc \
+    --disable-setuid \
+    --enable-cache-owner=bin \
+    --with-browser=/usr/bin/lynx \
+    --with-vgrind=/usr/bin/vgrind \
+    --with-grap=/usr/bin/grap
+  make
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  make DESTDIR="$pkgdir" install
+}
