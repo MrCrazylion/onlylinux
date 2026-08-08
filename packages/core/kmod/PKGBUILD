@@ -1,12 +1,22 @@
 pkgname=kmod
 pkgver=34.2
-pkgrel=1
+pkgrel=2
 pkgdesc="Linux kernel module management tools"
 arch=('x86_64')
 url="https://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git/"
 license=('LGPL-2.1-or-later')
 depends=('glibc' 'openssl' 'zlib' 'xz' 'zstd')
+makedepends=('meson' 'ninja')
 source=("https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-${pkgver}.tar.xz")
 md5sums=('36f2cc483745e81ede3406fa55e1065a')
-build() { cd "${pkgname}-${pkgver}"; ./configure --prefix=/usr --sysconfdir=/etc --with-openssl; make; }
-package() { cd "${pkgname}-${pkgver}"; make DESTDIR="$pkgdir" install; }
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  meson setup build --prefix=/usr --buildtype=release -D manpages=false
+  meson compile -C build
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+  DESTDIR="${pkgdir}" meson install -C build
+}
