@@ -1,0 +1,25 @@
+pkgname=meson
+pkgver=1.10.1
+pkgrel=1
+pkgdesc="High productivity build system"
+arch=('any')
+url="https://mesonbuild.com/"
+license=('Apache-2.0')
+depends=('python')
+makedepends=('python-pip' 'setuptools' 'wheel')
+source=("https://github.com/mesonbuild/meson/releases/download/$pkgver/meson-$pkgver.tar.gz")
+md5sums=('e1c12d275f8aae9fae71dff3d6891746')
+
+build() {
+  cd "$pkgname-$pkgver"
+  python -m pip wheel -w dist --no-cache-dir --no-build-isolation --no-deps .
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  python -m pip install --root="$pkgdir" --no-index --find-links=dist --no-deps meson
+  install -Dm644 data/shell-completions/bash/meson \
+    "$pkgdir/usr/share/bash-completion/completions/meson"
+  install -Dm644 data/shell-completions/zsh/_meson \
+    "$pkgdir/usr/share/zsh/site-functions/_meson"
+}
