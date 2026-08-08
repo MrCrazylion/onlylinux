@@ -292,3 +292,27 @@
     repository: "only-core"
     build_order: 66
     enabled: true
+
+  kmod:
+    version_source: "lfs"
+    lfs_source_name: "kmod"
+    arch_pkgbase: "kmod"
+    repository: "only-core"
+    build_order: 67
+    enabled: true
+
+  util-linux:
+    version_source: "lfs"
+    lfs_source_name: "util-linux"
+    arch_pkgbase: "util-linux"
+    repository: "only-core"
+    build_order: 68
+    enabled: true
+
+  e2fsprogs:
+    version_source: "lfs"
+    lfs_source_name: "e2fsprogs"
+    arch_pkgbase: "e2fsprogs"
+    repository: "only-core"
+    build_order: 69
+    enabled: true
