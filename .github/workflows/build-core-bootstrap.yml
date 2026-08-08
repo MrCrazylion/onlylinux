@@ -168,6 +168,11 @@ jobs:
               "intltool": "intltool",
               "sqlite": "sqlite-autoconf",
               "ninja": "ninja",
+              "lz4": "lz4",
+              "tcl": "tcl",
+              "expect": "expect",
+              "dejagnu": "dejagnu",
+              "kbd": "kbd",
 
           }
 
@@ -234,7 +239,7 @@ jobs:
             -exec cp -v {} output/packages/ \;
 
           package_count="$(find output/packages -type f -name '*.pkg.tar.zst' | wc -l)"
-          test "$package_count" -eq 61
+          test "$package_count" -eq 66
           echo "Collected $package_count bootstrap packages"
 
       - name: Create only-core repository database
