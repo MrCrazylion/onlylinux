@@ -5,10 +5,26 @@ pkgdesc="Time zone database"
 arch=('any')
 url="https://www.iana.org/time-zones"
 license=('LicenseRef-Public-Domain')
+makedepends=('glibc')
 source=("https://data.iana.org/time-zones/releases/tzdata${pkgver}.tar.gz")
 md5sums=('7250c862872c33104b73e7d0bd3cb25f')
 
 package() {
-  cd "tzdata${pkgver}"
-  make DESTDIR="$pkgdir" install
+  local zoneinfo="$pkgdir/usr/share/zoneinfo"
+  local timezone_source
+
+  install -dm755 "$zoneinfo/posix" "$zoneinfo/right"
+
+  for timezone_source in \
+    etcetera southamerica northamerica europe africa antarctica asia australasia backward
+  do
+    zic -L /dev/null -d "$zoneinfo" -y "sh yearistype.sh" "$timezone_source"
+    zic -L /dev/null -d "$zoneinfo/posix" -y "sh yearistype.sh" "$timezone_source"
+    zic -L leapseconds -d "$zoneinfo/right" -y "sh yearistype.sh" "$timezone_source"
+  done
+
+  zic -d "$zoneinfo" -p America/New_York
+  install -Dm644 iso3166.tab "$zoneinfo/iso3166.tab"
+  install -Dm644 zone1970.tab "$zoneinfo/zone1970.tab"
+  install -Dm644 zone.tab "$zoneinfo/zone.tab"
 }
