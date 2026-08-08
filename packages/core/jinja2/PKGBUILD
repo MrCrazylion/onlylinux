@@ -1,0 +1,21 @@
+pkgname=jinja2
+pkgver=3.1.6
+pkgrel=1
+pkgdesc="Python template engine"
+arch=('any')
+url="https://palletsprojects.com/p/jinja/"
+license=('BSD-3-Clause')
+depends=('python' 'markupsafe')
+makedepends=('python-pip' 'flit-core')
+source=("https://pypi.org/packages/source/j/jinja2/jinja2-$pkgver.tar.gz")
+md5sums=('66d4c25ff43d1deaf9637ccda523dec8')
+
+build() {
+  cd "$pkgname-$pkgver"
+  python -m pip wheel -w dist --no-cache-dir --no-build-isolation --no-deps .
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  python -m pip install --root="$pkgdir" --no-index --find-links=dist --no-deps Jinja2
+}
