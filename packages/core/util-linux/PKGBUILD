@@ -1,0 +1,12 @@
+pkgname=util-linux
+pkgver=2.41.3
+pkgrel=1
+pkgdesc="Miscellaneous essential Linux utilities"
+arch=('x86_64')
+url="https://github.com/util-linux/util-linux"
+license=('GPL-2.0-or-later')
+depends=('glibc' 'ncurses' 'zlib')
+source=("https://www.kernel.org/pub/linux/utils/util-linux/v2.41/util-linux-${pkgver}.tar.xz")
+md5sums=('d2faa85303dea29e7f6ee40a9465e528')
+build() { cd "${pkgname}-${pkgver}"; ./configure --prefix=/usr --libdir=/usr/lib --runstatedir=/run --disable-chfn-chsh --disable-login --disable-nologin --disable-su --disable-runuser --without-python; make; }
+package() { cd "${pkgname}-${pkgver}"; make DESTDIR="$pkgdir" install; }
