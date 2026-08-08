@@ -1,0 +1,11 @@
+pkgname=tcl
+pkgver=8.6.17
+pkgrel=1
+pkgdesc="Tool Command Language"
+arch=('x86_64')
+url="https://www.tcl-lang.org/"
+license=('TCL')
+source=("tcl${pkgver}-src.tar.gz::https://downloads.sourceforge.net/project/tcl/Tcl/${pkgver}/tcl${pkgver}-src.tar.gz")
+md5sums=('1ec3444533f54d0f86cd120058e15e48')
+build() { cd "tcl${pkgver}/unix"; ./configure --prefix=/usr --mandir=/usr/share/man; make; }
+package() { cd "tcl${pkgver}/unix"; make DESTDIR="$pkgdir" install; make DESTDIR="$pkgdir" install-private-headers; ln -sf tclsh8.6 "$pkgdir/usr/bin/tclsh"; }
