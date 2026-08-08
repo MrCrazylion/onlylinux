@@ -10,8 +10,14 @@ makedepends=('bison' 'flex' 'gettext' 'python')
 source=("https://ftp.gnu.org/gnu/grub/grub-$pkgver.tar.xz")
 md5sums=('383f9effad01c235d2535357ff717543')
 
+prepare() {
+  cd "$pkgname-$pkgver"
+  sed 's/--image-base/--nonexist-linker-option/' -i configure
+}
+
 build() {
   cd "$pkgname-$pkgver"
+  unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
   ./configure \
     --prefix=/usr \
     --sysconfdir=/etc \
