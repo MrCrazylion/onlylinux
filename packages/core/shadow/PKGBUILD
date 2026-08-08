@@ -12,7 +12,7 @@ md5sums=('c56d98c09e5dbae816250ba5c2285a37')
 
 build() {
   cd "${pkgname}-${pkgver}"
-  ./configure --prefix=/usr --sysconfdir=/etc --disable-static --with-group-name-max-length=32
+  ./configure --prefix=/usr --sysconfdir=/etc --disable-static --without-libbsd --with-group-name-max-length=32
   make
 }
 
