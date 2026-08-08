@@ -174,7 +174,7 @@ Manual runs can select `latest` or a specific available stable release. They reb
 
 ## Current bootstrap package set
 
-The workflow builds sixty-one packages inside an Arch Linux container:
+The workflow builds sixty-six packages inside an Arch Linux container:
 
 - `filesystem`
 - `attr`
@@ -237,6 +237,11 @@ The workflow builds sixty-one packages inside an Arch Linux container:
 - `intltool`
 - `sqlite`
 - `ninja`
+- `lz4`
+- `tcl`
+- `expect`
+- `dejagnu`
+- `kbd`
 
 The workflow creates an `only-core` ALPM repository database and uploads a versioned GitHub Actions artifact.
 
