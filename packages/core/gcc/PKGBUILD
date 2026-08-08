@@ -40,7 +40,15 @@ package() {
   cd "$pkgname-$pkgver/build"
   make DESTDIR="$pkgdir" install
   ln -sf gcc "$pkgdir/usr/bin/cc"
+  ln -sfr "$pkgdir/usr/bin/cpp" "$pkgdir/usr/lib/cpp"
+  ln -sf gcc.1 "$pkgdir/usr/share/man/man1/cc.1"
   mkdir -p "$pkgdir/usr/lib/bfd-plugins"
   ln -sf "../../libexec/gcc/$(gcc -dumpmachine)/$pkgver/liblto_plugin.so" \
     "$pkgdir/usr/lib/bfd-plugins/liblto_plugin.so"
+  mkdir -p "$pkgdir/usr/share/gdb/auto-load/usr/lib"
+  shopt -s nullglob
+  gdb_autoload=("$pkgdir"/usr/lib/*gdb.py)
+  if (( ${#gdb_autoload[@]} )); then
+    mv "${gdb_autoload[@]}" "$pkgdir/usr/share/gdb/auto-load/usr/lib/"
+  fi
 }
