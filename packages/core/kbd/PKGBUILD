@@ -1,0 +1,11 @@
+pkgname=kbd
+pkgver=2.9.0
+pkgrel=1
+pkgdesc="Linux keyboard utilities and data"
+arch=('x86_64')
+url="https://kbd-project.org/"
+license=('GPL-2.0-or-later')
+source=("https://www.kernel.org/pub/linux/utils/kbd/kbd-${pkgver}.tar.xz")
+md5sums=('7be7c6f658f5fb9512e2c490349a8eeb')
+build() { cd "${pkgname}-${pkgver}"; ./configure --prefix=/usr --disable-vlock; make; }
+package() { cd "${pkgname}-${pkgver}"; make DESTDIR="$pkgdir" install; }
