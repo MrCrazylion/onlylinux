@@ -1,0 +1,25 @@
+pkgname=dbus
+pkgver=1.16.2
+pkgrel=1
+pkgdesc="Message bus system"
+arch=('x86_64')
+url="https://www.freedesktop.org/wiki/Software/dbus/"
+license=('AFL-2.1' 'GPL-2.0-or-later')
+depends=('expat' 'systemd')
+makedepends=('meson' 'ninja')
+source=("https://dbus.freedesktop.org/releases/dbus/dbus-$pkgver.tar.xz")
+md5sums=('97832e6f0a260936d28536e5349c22e5')
+
+build() {
+  cd "$pkgname-$pkgver"
+  meson setup build \
+    --prefix=/usr \
+    --buildtype=release \
+    --wrap-mode=nofallback
+  ninja -C build
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  DESTDIR="$pkgdir" ninja -C build install
+}
