@@ -1,0 +1,26 @@
+pkgname=grub
+pkgver=2.14
+pkgrel=1
+pkgdesc="GNU boot loader"
+arch=('x86_64')
+url="https://www.gnu.org/software/grub/"
+license=('GPL-3.0-or-later')
+depends=('glibc')
+makedepends=('bison' 'flex' 'gettext' 'python')
+source=("https://ftp.gnu.org/gnu/grub/grub-$pkgver.tar.xz")
+md5sums=('383f9effad01c235d2535357ff717543')
+
+build() {
+  cd "$pkgname-$pkgver"
+  ./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --disable-efiemu \
+    --disable-werror
+  make
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  make DESTDIR="$pkgdir" install
+}
