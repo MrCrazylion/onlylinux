@@ -97,7 +97,7 @@ def main() -> int:
         parsed = split_name_and_version(filename)
         if parsed is None:
             special_match = re.match(
-                r"^(?P<name>tcl|expect)(?P<version>[0-9][A-Za-z0-9._+-]*)(?:-src)?\\.tar\\.gz$",
+                r"^(?P<name>tcl|expect)(?P<version>[0-9][A-Za-z0-9._+-]*)(?:-src)?\.tar\.gz$",
                 filename,
             )
             if special_match is not None:
