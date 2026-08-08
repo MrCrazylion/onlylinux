@@ -1,0 +1,12 @@
+pkgname=dejagnu
+pkgver=1.6.3
+pkgrel=1
+pkgdesc="Framework for testing other programs"
+arch=('any')
+url="https://www.gnu.org/software/dejagnu/"
+license=('GPL-3.0-or-later')
+depends=('expect')
+source=("https://ftpmirror.gnu.org/dejagnu/dejagnu-${pkgver}.tar.gz")
+md5sums=('68c5208c58236eba447d7d6d1326b821')
+build() { cd "${pkgname}-${pkgver}"; ./configure --prefix=/usr; make; }
+package() { cd "${pkgname}-${pkgver}"; make DESTDIR="$pkgdir" install; }
